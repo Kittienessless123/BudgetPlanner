@@ -1,0 +1,105 @@
+# Зависимости
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Сборка и дистрибутивы
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Переменные окружения
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Логи
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Тесты и покрытие
+coverage/
+.nyc_output/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Временные файлы
+tmp/
+temp/
+*.tmp
+*.temp
+
+# Базы данных
+*.db
+*.sqlite
+*.sqlite3
+
+# Uploads (если есть загрузка файлов)
+uploads/
+public/uploads/
+
+# Secrets (никогда не коммитьте!)
+*.pem
+*.key
+*.crt
+*.p12
+secrets/
+
+# Docker
+docker-compose.override.yml
+.dockerignore
+
+# TypeScript
+tsconfig.tsbuildinfo
+
+# Проектные файлы (опционально)
+.project
+.classpath
+.settings/
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Debug logs
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+
+# Editor directories and files
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# System files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

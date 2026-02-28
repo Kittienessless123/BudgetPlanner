@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    environment:
+      NODE_ENV: development
+      DEBUG: 'true'
+    volumes:
+      - ./src:/app/src
+      - ./node_modules:/app/node_modules
+    command: >
+      sh -c "npm run dev"
+
+  postgres:
+    ports:
+      - "5432:5432"  # Открываем порт для локального подключения
