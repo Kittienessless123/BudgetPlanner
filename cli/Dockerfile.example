@@ -1,0 +1,49 @@
+# Этапы сборки (multi-stage build)
+# 1. Билд stage
+FROM node:18-alpine AS builder
+
+WORKDIR /app
+
+# Копирование файлов зависимостей
+COPY package*.json ./
+COPY tsconfig*.json ./
+
+# Установка зависимостей
+RUN npm ci --only=production
+RUN npm install -D typescript @types/node
+
+# Копирование исходного кода
+COPY src ./src
+
+# Сборка TypeScript
+RUN npm run build
+
+# 2. Production stage
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Установка curl для healthcheck
+RUN apk --no-cache add curl
+
+# Копирование собранного приложения из builder
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+COPY package*.json ./
+
+# Создание пользователя без прав
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodejs -u 1001
+
+# Переключение на пользователя без прав
+USER nodejs
+
+# Открытие порта
+EXPOSE 3000
+
+# Healthcheck
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3000/health || exit 1
+
+# Запуск приложения
+CMD ["node", "dist/index.js"]
