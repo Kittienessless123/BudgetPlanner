@@ -42,6 +42,8 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "allowImportingTsExtensions": true,
-    "noEmit": true
+    "noEmit": true,
+    "experimentalDecorators": true, // включает поддержку декораторов
+    "emitDecoratorMetadata": true
   }
 }

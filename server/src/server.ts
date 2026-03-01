@@ -22,6 +22,7 @@ server.use(errorLogger);
 
 // Обработка ошибок
 server.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+
   logger.error('Необработанная ошибка:', err);
   res.status(500).json({ error: 'Внутренняя ошибка сервера' });
 });
