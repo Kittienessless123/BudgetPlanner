@@ -1,8 +1,10 @@
 require("dotenv").config();
 
-class AuthValidator {
-  async validateEmail() {}
+export class AuthValidator {
+  async validateEmail(email : string) {
+    // проверка существования через репозиторий
+
+  }
 
   async validatePassword() {}
 }
-module.exports = new AuthValidator();

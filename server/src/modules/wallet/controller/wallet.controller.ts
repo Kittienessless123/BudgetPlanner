@@ -1,33 +1,33 @@
 import type { NextFunction, Response, Request } from "express";
-import { UserService } from "../service/user.service.ts";
+import { WalletService } from "../service/wallet.service.ts";
 require("dotenv").config();
 
-export class UserController {
+export class WalletController {
   async getUserDataByPk(req: Request, res: Response, next: NextFunction) {
     const { id } = req.body;
-    const authService = new UserService();
-    const result = await authService.getUserDataByPk(id);
+    const walletService = new WalletService();
+    const result = await walletService.getUserDataByPk(id);
     return result;
   }
 
   async getUserWallets(req: Request, res: Response, next: NextFunction) {
     const { id } = req.body;
-    const authService = new UserService();
-    const result = await authService.getUserWallets(id);
+    const walletService = new WalletService();
+    const result = await walletService.getUserWallets(id);
     return result;
   }
 
   async getUserDebts(req: Request, res: Response, next: NextFunction) {
     const { id } = req.body;
-    const authService = new UserService();
-    const result = await authService.getUserDebts(id);
+    const walletService = new WalletService();
+    const result = await walletService.getUserDebts(id);
     return result;
   }
 
   async userStats(req: Request, res: Response, next: NextFunction) {
     const { id } = req.body;
-    const authService = new UserService();
-    const result = await authService.getUserStats(id);
+    const walletService = new WalletService();
+    const result = await walletService.getUserStats(id);
     return result;
   }
 }
