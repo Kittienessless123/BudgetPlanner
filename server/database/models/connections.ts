@@ -1,28 +1,279 @@
-import { Sequelize } from "sequelize";
-import type { User } from "./user.model.ts";
-import type { Token } from "./token.model.ts";
+// models/associations.ts
+import { User } from "./user.model.ts";
+import { Token } from "./token.model.ts";
+import { Wallet } from "./wallet.model.ts";
+import { Bank } from "./bank.model.ts";
+import { CreditAgreement } from "./credit-agreements.model.ts";
+import { CreditPayments } from "./credit-payments.model.ts";
+import { Debts } from "./debts.model.ts";
+import { MoneyFlowType } from "./money-flow-types.model.ts";
+import { PaymentSchedule } from "./payment-schedule.model.ts";
+import { PaymentStatuses } from "./payment-statuses.model.ts";
+import { PurchaseCat } from "./purchase-categories.model.ts";
+import { Transactions } from "./transactions.model.ts";
+import { UsersPCategory } from "./users-p-cat.model.ts";
+import { WalletStory } from "./wallet-balance-history.model.ts";
 
-export const setupConnections = (sequelize: Sequelize): void => {
-  const { models } = sequelize;
+export const setupConnections = () => {
+  // User associations
+  User.hasMany(Wallet, {
+    foreignKey: "user_id",
+    as: "wallets",
+    sourceKey: "id",
+  });
 
-  // Пример связей
-  if (models.User && models.Token) {
-    (models.User as unknown as typeof User).hasMany(
-      models.Token as unknown as typeof Token,
-      {
-        foreignKey: "user_id",
-        as: "tokens",
-      },
-    );
+  User.hasMany(Transactions, {
+    foreignKey: "user_id",
+    as: "transactions",
+    sourceKey: "id",
+  });
 
-    (models.Token as unknown as typeof Token).belongsTo(
-      models.User as unknown as typeof User,
-      {
-        foreignKey: "user_id",
-        as: "user",
-      },
-    );
-  }
+  User.hasMany(Debts, {
+    foreignKey: "user_id",
+    as: "debts",
+    sourceKey: "id",
+  });
 
-  // и так далее...
+  User.hasMany(CreditAgreement, {
+    foreignKey: "user_id",
+    as: "creditAgreements",
+    sourceKey: "id",
+  });
+
+  User.hasMany(Token, {
+    foreignKey: "user_id",
+    as: "tokens",
+    sourceKey: "id",
+  });
+
+  User.hasMany(UsersPCategory, {
+    foreignKey: "user_id",
+    as: "customCategories",
+    sourceKey: "id",
+  });
+
+  // Wallet associations
+  Wallet.belongsTo(User, {
+    foreignKey: "user_id",
+    as: "user",
+    targetKey: "id",
+  });
+
+  Wallet.hasMany(Transactions, {
+    foreignKey: "wallet_id",
+    as: "transactions",
+    sourceKey: "id",
+  });
+
+  Wallet.hasMany(WalletStory, {
+    foreignKey: "wallet_id",
+    as: "balanceHistory",
+    sourceKey: "id",
+  });
+
+  // WalletStory associations
+  WalletStory.belongsTo(Wallet, {
+    foreignKey: "wallet_id",
+    as: "wallet",
+    targetKey: "id",
+  });
+
+  WalletStory.belongsTo(Transactions, {
+    foreignKey: "transaction_id",
+    as: "transaction",
+    targetKey: "id",
+  });
+
+  // Transactions associations
+  Transactions.belongsTo(User, {
+    foreignKey: "user_id",
+    as: "user",
+    targetKey: "id",
+  });
+
+  Transactions.belongsTo(Wallet, {
+    foreignKey: "wallet_id",
+    as: "wallet",
+    targetKey: "id",
+  });
+
+  Transactions.belongsTo(MoneyFlowType, {
+    foreignKey: "money_flow_type_id",
+    as: "flowType",
+    targetKey: "id",
+  });
+
+  Transactions.belongsTo(PaymentStatuses, {
+    foreignKey: "status_id",
+    as: "status",
+    targetKey: "id",
+  });
+
+  Transactions.belongsTo(PurchaseCat, {
+    foreignKey: "purchase_cat_id",
+    as: "systemCategory",
+    targetKey: "id",
+  });
+
+  Transactions.belongsTo(UsersPCategory, {
+    foreignKey: "user_cat_id",
+    as: "userCategory",
+    targetKey: "id",
+  });
+
+  Transactions.belongsTo(Transactions, {
+    foreignKey: "related_tx_id",
+    as: "relatedTransaction",
+    targetKey: "id",
+  });
+
+  Transactions.hasMany(Transactions, {
+    foreignKey: "related_tx_id",
+    as: "childTransactions",
+    sourceKey: "id",
+  });
+
+  Transactions.hasOne(CreditPayments, {
+    foreignKey: "transaction_id",
+    as: "creditPayment",
+    sourceKey: "id",
+  });
+
+  // CreditAgreement associations
+  CreditAgreement.belongsTo(User, {
+    foreignKey: "user_id",
+    as: "user",
+    targetKey: "id",
+  });
+
+  CreditAgreement.belongsTo(Bank, {
+    foreignKey: "bank_id",
+    as: "bank",
+    targetKey: "id",
+  });
+
+  CreditAgreement.hasMany(CreditPayments, {
+    foreignKey: "credit_agree_id",
+    as: "payments",
+    sourceKey: "id",
+  });
+
+  CreditAgreement.hasMany(PaymentSchedule, {
+    foreignKey: "credit_agree_id",
+    as: "schedule",
+    sourceKey: "id",
+  });
+
+  // CreditPayments associations
+  CreditPayments.belongsTo(CreditAgreement, {
+    foreignKey: "credit_agree_id",
+    as: "agreement",
+    targetKey: "id",
+  });
+
+  CreditPayments.belongsTo(Transactions, {
+    foreignKey: "transaction_id",
+    as: "transaction",
+    targetKey: "id",
+  });
+
+  // PaymentSchedule associations
+  PaymentSchedule.belongsTo(CreditAgreement, {
+    foreignKey: "credit_agree_id",
+    as: "agreement",
+    targetKey: "id",
+  });
+
+  PaymentSchedule.belongsTo(CreditPayments, {
+    foreignKey: "payment_id",
+    as: "payment",
+    targetKey: "id",
+  });
+
+  // Debts associations
+  Debts.belongsTo(User, {
+    foreignKey: "user_id",
+    as: "user",
+    targetKey: "id",
+  });
+
+  Debts.belongsTo(Transactions, {
+    foreignKey: "initial_tx_id",
+    as: "initialTransaction",
+    targetKey: "id",
+  });
+
+  // Bank associations
+  Bank.hasMany(CreditAgreement, {
+    foreignKey: "bank_id",
+    as: "creditAgreements",
+    sourceKey: "id",
+  });
+
+  // MoneyFlowType associations
+  MoneyFlowType.hasMany(Transactions, {
+    foreignKey: "money_flow_type_id",
+    as: "transactions",
+    sourceKey: "id",
+  });
+
+  // PaymentStatuses associations
+  PaymentStatuses.hasMany(Transactions, {
+    foreignKey: "status_id",
+    as: "transactions",
+    sourceKey: "id",
+  });
+
+  // PurchaseCat associations (system categories)
+  PurchaseCat.hasMany(PurchaseCat, {
+    foreignKey: "parent_id",
+    as: "children",
+    sourceKey: "id",
+  });
+
+  PurchaseCat.belongsTo(PurchaseCat, {
+    foreignKey: "parent_id",
+    as: "parent",
+    targetKey: "id",
+  });
+
+  PurchaseCat.hasMany(Transactions, {
+    foreignKey: "purchase_cat_id",
+    as: "transactions",
+    sourceKey: "id",
+  });
+
+  // UsersPCategory associations (user custom categories)
+  UsersPCategory.belongsTo(User, {
+    foreignKey: "user_id",
+    as: "user",
+    targetKey: "id",
+  });
+
+  UsersPCategory.hasMany(UsersPCategory, {
+    foreignKey: "parent_id",
+    as: "children",
+    sourceKey: "id",
+  });
+
+  UsersPCategory.belongsTo(UsersPCategory, {
+    foreignKey: "parent_id",
+    as: "parent",
+    targetKey: "id",
+  });
+
+  UsersPCategory.hasMany(Transactions, {
+    foreignKey: "user_cat_id",
+    as: "transactions",
+    sourceKey: "id",
+  });
+
+  // Token associations
+  Token.belongsTo(User, {
+    foreignKey: "user_id",
+    as: "user",
+    targetKey: "id",
+  });
+
+  console.log("✅ All model associations configured");
 };

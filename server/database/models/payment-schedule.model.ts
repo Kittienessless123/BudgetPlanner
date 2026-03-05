@@ -3,23 +3,23 @@ import {
   DataTypes,
   Model,
   type InferAttributes,
- type InferCreationAttributes,
- type CreationOptional,
-} from '@sequelize/core';
-import { Attribute, PrimaryKey, AutoIncrement, NotNull } from '@sequelize/core/decorators-legacy';
+  type InferCreationAttributes,
+  type CreationOptional,
+} from "@sequelize/core";
+import {
+  Attribute,
+  PrimaryKey,
+  AutoIncrement,
+  NotNull,
+  Table,
+  Default,
+} from "@sequelize/core/decorators-legacy";
 
-
-/*    ┌─────────────────┐                 │
-         │               │payment_schedule │                 │
-         │               ├─────────────────┤                 │
-         │               │ id              │                 │
-         │               │ credit_agree_id │                 │
-         │               │ scheduled_date  │                 │
-         │               │ scheduled_total │                 │
-         │               │ payment_id      │─────────────────┘
-         │               │ payment_status  │
- */
-export class PaymentSchedule extends Model<InferAttributes<PaymentSchedule>, InferCreationAttributes<PaymentSchedule>> {
+@Table({ tableName: 'payment_schedule', timestamps: true })
+export class PaymentSchedule extends Model<
+  InferAttributes<PaymentSchedule>,
+  InferCreationAttributes<PaymentSchedule>
+> {
   @Attribute(DataTypes.INTEGER)
   @PrimaryKey
   @AutoIncrement
@@ -29,9 +29,24 @@ export class PaymentSchedule extends Model<InferAttributes<PaymentSchedule>, Inf
   @NotNull
   declare title: string;
 
-  @Attribute(DataTypes.STRING)
-  declare description: string | null;
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare credit_agree_id: number;
 
-  
+  @Attribute(DataTypes.DATE)
+  @NotNull
+  declare scheduled_date: CreationOptional<Date>;
 
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare scheduled_total: number;
+
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare payment_id: number | null; // может быть null до оплаты
+
+  @Attribute(DataTypes.STRING(20))
+  @NotNull
+  @Default('pending')
+  declare payment_status: string; // pending, paid, overdue
 }

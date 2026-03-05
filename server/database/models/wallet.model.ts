@@ -3,18 +3,23 @@ import {
   DataTypes,
   Model,
   type InferAttributes,
- type InferCreationAttributes,
- type CreationOptional,
-} from '@sequelize/core';
-import { Attribute, PrimaryKey, AutoIncrement, NotNull } from '@sequelize/core/decorators-legacy';
+  type InferCreationAttributes,
+  type CreationOptional,
+} from "@sequelize/core";
+import {
+  Attribute,
+  PrimaryKey,
+  AutoIncrement,
+  NotNull,
+  Table,
+} from "@sequelize/core/decorators-legacy";
 
-/*  │ id              │
- │ user_id         │ 
- │ name            │ 
- │ currency        │ 
- │ current_balance │ */
- 
-export class Wallet extends Model<InferAttributes<Wallet>, InferCreationAttributes<Wallet>> {
+@Table({ tableName: 'wallets', timestamps: true })
+
+export class Wallet extends Model<
+  InferAttributes<Wallet>,
+  InferCreationAttributes<Wallet>
+> {
   @Attribute(DataTypes.INTEGER)
   @PrimaryKey
   @AutoIncrement
@@ -22,11 +27,17 @@ export class Wallet extends Model<InferAttributes<Wallet>, InferCreationAttribut
 
   @Attribute(DataTypes.STRING)
   @NotNull
-  declare title: string;
+  declare name: string;
+
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare user_id: number; // было string, исправил на number
 
   @Attribute(DataTypes.STRING)
-  declare description: string | null;
+  @NotNull
+  declare currency: string;
 
-  
-
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare current_balance: number;
 }

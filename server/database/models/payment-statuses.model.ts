@@ -3,17 +3,22 @@ import {
   DataTypes,
   Model,
   type InferAttributes,
- type InferCreationAttributes,
- type CreationOptional,
-} from '@sequelize/core';
-import { Attribute, PrimaryKey, AutoIncrement, NotNull } from '@sequelize/core/decorators-legacy';
+  type InferCreationAttributes,
+  type CreationOptional,
+} from "@sequelize/core";
+import {
+  Attribute,
+  PrimaryKey,
+  AutoIncrement,
+  NotNull,
+  Table,
+} from "@sequelize/core/decorators-legacy";
 
-//id
-//code
-//name
-
-
-export class PaymentStatuses extends Model<InferAttributes<PaymentStatuses>, InferCreationAttributes<PaymentStatuses>> {
+@Table({ tableName: "payment_statuses", timestamps: false })
+export class PaymentStatuses extends Model<
+  InferAttributes<PaymentStatuses>,
+  InferCreationAttributes<PaymentStatuses>
+> {
   @Attribute(DataTypes.INTEGER)
   @PrimaryKey
   @AutoIncrement
@@ -21,11 +26,9 @@ export class PaymentStatuses extends Model<InferAttributes<PaymentStatuses>, Inf
 
   @Attribute(DataTypes.STRING)
   @NotNull
-  declare title: string;
+  declare name: string;
 
-  @Attribute(DataTypes.STRING)
-  declare description: string | null;
-
-  
-
+  @Attribute(DataTypes.STRING(20))
+  @NotNull
+  declare code: string; // pending, completed, failed, cancelled
 }

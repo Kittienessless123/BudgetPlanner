@@ -3,33 +3,35 @@ import {
   DataTypes,
   Model,
   type InferAttributes,
- type InferCreationAttributes,
- type CreationOptional,
-} from '@sequelize/core';
-import { Attribute, PrimaryKey, AutoIncrement, NotNull } from '@sequelize/core/decorators-legacy';
-/* 
-               ▼            │  │      │  │
-         │               ┌─────────────────┐    │  │      │  │
-         │               │money_flow_types │    │  │      │  │
-         │               ├─────────────────┤    │  │      │  │
-         │               │ id              │────┘  │      │  │
-         │               │ code            │       │      │  │
-         │               │ name            │       │      │  │
-         │               │ direction       
- */
-export class MoneyFlowType extends Model<InferAttributes<MoneyFlowType>, InferCreationAttributes<MoneyFlowType>> {
+  type InferCreationAttributes,
+  type CreationOptional,
+} from "@sequelize/core";
+import {
+  Attribute,
+  PrimaryKey,
+  AutoIncrement,
+  NotNull,
+  Table,
+} from "@sequelize/core/decorators-legacy";
+
+@Table({ tableName: "money_flow_types", timestamps: true })
+export class MoneyFlowType extends Model<
+  InferAttributes<MoneyFlowType>,
+  InferCreationAttributes<MoneyFlowType>
+> {
   @Attribute(DataTypes.INTEGER)
   @PrimaryKey
   @AutoIncrement
   declare id: CreationOptional<number>;
-
-  @Attribute(DataTypes.STRING)
+  @Attribute(DataTypes.STRING(50))
   @NotNull
-  declare title: string;
+  declare name: string; // было title, исправил для консистентности
 
-  @Attribute(DataTypes.STRING)
-  declare code: string | null;
+  @Attribute(DataTypes.STRING(30))
+  @NotNull
+  declare code: string; // income, expense, transfer, etc
 
-  
-
+  @Attribute(DataTypes.STRING(10))
+  @NotNull
+  declare direction: string; // 'in' или 'out'
 }

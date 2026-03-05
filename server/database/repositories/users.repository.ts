@@ -1,88 +1,162 @@
 // repositories/user.repository.ts
-import { BaseRepository } from ".//base.repository.ts";
-import { InjectModel } from "../decorators/inject-model.decorator.ts";
-import { User, UserAttributes } from "../models/user.model.ts";
-import { ModelCtor } from "sequelize";
-import type { RegisterRequestDto } from "../../src/modules/auth/dto/register.dto.ts";
-const bcrypt = require("bcrypt");
+import { BaseRepository } from "./base.repository.ts";
+import { User } from "../models/user.model.ts";
+import { Transaction, type ModelStatic } from "@sequelize/core";
+import { compare, hash } from "bcrypt";
+import type { TransactionOptions } from "./repository.types.ts";
 
-// Дополнительные методы специфичные для пользователя
-export interface IUserRepository extends IRepository<RegisterRequestDto> {
-  findByEmail(email: string): Promise<User | null>;
-  findActiveUsers(): Promise<User[]>;
-  updateLastLogin(userId: number): Promise<void>;
+// Тип для пользователя с ассоциациями
+type UserWithAssociations = User & {
+  wallets?: any[];
+  transactions?: any[];
+  debts?: any[];
+  creditAgreements?: any[];
+};
+
+export interface UserStats {
+  totalTransactions: number;
+  totalWallets: number;
+  totalDebts: number;
+  totalCreditAgreements: number;
+  lastActive: Date | null;
 }
 
-export class UserRepository
-  extends BaseRepository<RegisterRequestDto>
-  implements IUserRepository
-{
-  constructor(
-    @InjectModel("User") protected model: ModelCtor<RegisterRequestDto>,
-  ) {
+export class UserRepository extends BaseRepository<User> {
+  constructor(model: ModelStatic<User>) {
     super(model);
   }
 
-  // Специфичные методы
-  async findByEmailPassword(
+  // То что ты просила оставить
+  async isAuth(id: number): Promise<boolean> {
+    try {
+      const user = await this.findById(id);
+      return !!user;
+    } catch {
+      return false;
+    }
+  }
+
+  async getUserInfo(id: number): Promise<Partial<User> | null> {
+    const user = await this.findById(id);
+    if (!user) return null;
+
+    const { password_hash, ...info } = user.get(); // Используем get() вместо toJSON()
+    return info;
+  }
+
+  async getUserStats(id: number): Promise<UserStats> {
+    return this.transaction(async (t) => {
+      const user = (await this.model.findByPk(id, {
+        include: [
+          { association: "wallets" },
+          { association: "transactions" },
+          { association: "debts" },
+          { association: "creditAgreements" },
+        ],
+        transaction: t,
+      })) as UserWithAssociations | null;
+
+      if (!user) {
+        return {
+          totalTransactions: 0,
+          totalWallets: 0,
+          totalDebts: 0,
+          totalCreditAgreements: 0,
+          lastActive: null,
+        };
+      }
+
+      // Получаем данные через get()
+      const userData = user.get();
+
+      return {
+        totalTransactions: userData.transactions?.length || 0,
+        totalWallets: userData.wallets?.length || 0,
+        totalDebts: userData.debts?.length || 0,
+        totalCreditAgreements: userData.creditAgreements?.length || 0,
+        lastActive: userData.lastLoginAt || null,
+      };
+    });
+  }
+
+  // Дополнительные методы
+  async findByEmail(
     email: string,
-    password: string,
-  ): Promise<RegisterRequestDto | null> {
+    options?: TransactionOptions,
+  ): Promise<User | null> {
+    return this.findOne({ where: { email } }, options);
+  }
+
+  async findByEmailWithPassword(
+    email: string,
+    options?: TransactionOptions,
+  ): Promise<User | null> {
     try {
       const user = await this.model.findOne({
         where: { email },
+        attributes: { include: ["password_hash"] },
+        transaction: options?.transaction,
       });
-      const isPassEquals = await bcrypt.compare(password, user.password);
-      if (!isPassEquals) throw new Error("Пароль неверный");
+      return user;
     } catch (error) {
       throw new Error(`Error finding user by email: ${error}`);
     }
   }
 
-  async findActiveUsers(): Promise<User[]> {
-    try {
-      return await this.model.findAll({
-        where: {
-          isActive: true,
-          deletedAt: null,
-        },
-      });
-    } catch (error) {
-      throw new Error(`Error finding active users: ${error}`);
-    }
+  async createUser(
+    userData: {
+      email: string;
+      password: string;
+      name: string;
+      default_currency?: string;
+    },
+    options?: TransactionOptions,
+  ): Promise<Omit<User, "password_hash">> {
+    const hashedPassword = await hash(userData.password, 10);
+
+    const user = await this.create(
+      {
+        email: userData.email,
+        password_hash: hashedPassword,
+        name: userData.name,
+        default_currency: userData.default_currency || "RUB",
+      } as any,
+      options,
+    );
+
+    const { password_hash, ...userWithoutPassword } = user.get();
+    return userWithoutPassword as Omit<User, "password_hash">;
   }
 
-  async updateLastLogin(userId: number): Promise<void> {
-    try {
-      await this.model.update(
-        { lastLoginAt: new Date() },
-        { where: { id: userId } },
-      );
-    } catch (error) {
-      throw new Error(`Error updating last login: ${error}`);
-    }
+  async authenticate(
+    email: string,
+    password: string,
+    options?: TransactionOptions,
+  ): Promise<Omit<User, "password_hash"> | null> {
+    const user = await this.findByEmailWithPassword(email, options);
+
+    if (!user) return null;
+
+    const isValid = await compare(password, user.password_hash);
+    if (!isValid) return null;
+
+    const { password_hash, ...userWithoutPassword } = user.get();
+    return userWithoutPassword as Omit<User, "password_hash">;
   }
 
-  // Переопределение базовых методов (если нужно)
-  async create(
-    data: Omit<User, "id" | "createdAt" | "updatedAt">,
-  ): Promise<User> {
-    // Добавляем хеширование пароля перед созданием
-    const hashedData = {
-      ...data,
-      password: await this.hashPassword(data.password),
-    };
-    return super.create(hashedData);
+  async updateLastLogin(
+    id: number,
+    options?: TransactionOptions,
+  ): Promise<void> {
+    await this.update(id, { lastLoginAt: new Date() }, options);
   }
 
-  private async hashPassword(password: string): Promise<string> {
-    // логика хеширования
-    return password; // заглушка
+  async findActiveUsers(options?: TransactionOptions): Promise<User[]> {
+    return this.findAll(
+      {
+        where: { isActive: true } as any,
+      },
+      options,
+    );
   }
-
-  async isAuth(id: number) {
-    return true;
-  }
-  async getUserInfo(id: number) {}
-  async getUserStats(id: number) {}
 }

@@ -3,31 +3,38 @@ import {
   DataTypes,
   Model,
   type InferAttributes,
- type InferCreationAttributes,
- type CreationOptional,
-} from '@sequelize/core';
-import { Attribute, PrimaryKey, AutoIncrement, NotNull } from '@sequelize/core/decorators-legacy';
+  type InferCreationAttributes,
+  type CreationOptional,
+} from "@sequelize/core";
+import {
+  Attribute,
+  PrimaryKey,
+  AutoIncrement,
+  NotNull,
+  Table,
+  Default,
+} from "@sequelize/core/decorators-legacy";
 
-/*   purchase_     │
-         │               │   categories    │
-         │               ├─────────────────┤
-         │               │ id              │
-         ├───────────────│ name            │
-         │               │ parent_id       │───┐
-         │               │ is_active       */
-export class PurchaseCat extends Model<InferAttributes<PurchaseCat>, InferCreationAttributes<PurchaseCat>> {
+@Table({ tableName: "purchase_categories", timestamps: true })
+export class PurchaseCat extends Model<
+  InferAttributes<PurchaseCat>,
+  InferCreationAttributes<PurchaseCat>
+> {
   @Attribute(DataTypes.INTEGER)
   @PrimaryKey
   @AutoIncrement
   declare id: CreationOptional<number>;
 
-  @Attribute(DataTypes.STRING)
+  @Attribute(DataTypes.STRING(100))
   @NotNull
-  declare title: string;
+  declare name: string; // было number, исправил на string
 
-  @Attribute(DataTypes.STRING)
-  declare description: string | null;
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  @Default(0)
+  declare parent_id: number; // 0 - корневая категория
 
-  
-
+  @Attribute(DataTypes.BOOLEAN)
+  @NotNull
+  declare is_active: boolean;
 }

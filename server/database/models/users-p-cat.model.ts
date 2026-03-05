@@ -3,34 +3,40 @@ import {
   DataTypes,
   Model,
   type InferAttributes,
- type InferCreationAttributes,
- type CreationOptional,
-} from '@sequelize/core';
-import { Attribute, PrimaryKey, AutoIncrement, NotNull } from '@sequelize/core/decorators-legacy';
+  type InferCreationAttributes,
+  type CreationOptional,
+} from "@sequelize/core";
+import {
+  Attribute,
+  PrimaryKey,
+  AutoIncrement,
+  NotNull,
+  Table,
+} from "@sequelize/core/decorators-legacy";
 
-/*   ┌─────────────────┐   │
-         │               │ user_purchase_  │   │
-         │               │   categories    │   │
-         │               ├─────────────────┤   │
-         │               │ id              │   │
-         └───────────────│ user_id         │   │
-                         │ name            │   │
-                         │ parent_id       │───┘
-                         │ parent_type     │
-                         └─────────────────┘ */
-export class UsersPCategory extends Model<InferAttributes<UsersPCategory>, InferCreationAttributes<UsersPCategory>> {
+@Table({ tableName: "user_purchase_categories", timestamps: true })
+export class UsersPCategory extends Model<
+  InferAttributes<UsersPCategory>,
+  InferCreationAttributes<UsersPCategory>
+> {
   @Attribute(DataTypes.INTEGER)
   @PrimaryKey
   @AutoIncrement
   declare id: CreationOptional<number>;
 
-  @Attribute(DataTypes.STRING)
+  @Attribute(DataTypes.INTEGER)
   @NotNull
-  declare title: string;
+  declare user_id: number;
 
-  @Attribute(DataTypes.STRING)
-  declare description: string | null;
+  @Attribute(DataTypes.STRING(100))
+  @NotNull
+  declare name: string; // было number, исправил
 
-  
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare parent_id: number;
 
+  @Attribute(DataTypes.STRING(20))
+  @NotNull
+  declare parent_type: string; // 'system' или 'user'
 }

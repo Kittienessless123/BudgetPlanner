@@ -3,7 +3,7 @@ import { AuthValidator } from "../validators/auth.validator.ts";
 const bcrypt = require("bcrypt");
 import { UserRepository } from "../../../../database/repositories/users.repository.ts";
 import { RegisterRequestDto } from "../dto/register.dto.ts";
-import { TokenService } from "../../Token/service/token.service.ts";
+import { TokenService } from "../../token/service/token.service.ts";
 import { LoginRequestDto } from "../dto/login.dto.ts";
 
 export class AuthService {
@@ -16,7 +16,8 @@ export class AuthService {
     const userRepo = new UserRepository(registerDto);
     const registrationResult = await userRepo.create(registerDto);
     if (!registrationResult) throw new Error("register failed");
-    const tokens = tokenService.generateTokens({ ...registrationResult });
+    const tokenService = new TokenService();
+    const tokens = await tokenService.generateTokens({ ...registrationResult });
     await tokenService.saveToken(registrationResult.id, tokens.refreshToken);
     return {
       ...tokens,
@@ -34,6 +35,8 @@ export class AuthService {
       loginDto.password,
     );
     if (!loginResult) throw new Error("login failed");
+        const tokenService = new TokenService();
+
     const tokens = tokenService.generateTokens({ ...loginResult });
     await tokenService.saveToken(loginResult.id, tokens.refreshToken);
 
@@ -44,8 +47,8 @@ export class AuthService {
   }
 
   async logout(id: number) {
-    const tokenRepo = new TokenRepository();
-    const refreshToken = await tokenRepo.getTokenById(id);
+    const tokenService = new TokenService();
+    const refreshToken = await tokenService.getTokenById(id);
     const token = await tokenService.removeToken(refreshToken);
     return token;
   }
@@ -53,25 +56,12 @@ export class AuthService {
 
   async refresh(refreshToken) {
     if (!refreshToken) throw new Error("login failed");
+        const tokenService = new TokenService();
+
     const userData = tokenService.validateRefreshToken(refreshToken);
 
     const tokenFromDto = await tokenService.findToken(refreshToken);
 
-    
-
-    const user = await getDb().models.User.findOne({
-      where: {
-        user_id: userData.user_id,
-      },
-    });
-
-    const userDto = new UserDto(user);
-    const tokens = await tokenService.generateTokens({ ...userDto });
-
-    await tokenService.saveToken(userDto.user_id, tokens.refreshToken);
-    return {
-      ...tokens,
-      user: userDto,
-    };
+   
   }
 }

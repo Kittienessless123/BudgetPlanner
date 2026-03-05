@@ -3,37 +3,45 @@ import {
   DataTypes,
   Model,
   type InferAttributes,
- type InferCreationAttributes,
- type CreationOptional,
-} from '@sequelize/core';
-import { Attribute, PrimaryKey, AutoIncrement, NotNull } from '@sequelize/core/decorators-legacy';
-/* 
-             ▼                        │
-         │               ┌─────────────────┐               │
-         │               │wallet_balance_  │               │
-         │               │    history      │               │
-         │               ├─────────────────┤               │
-         │               │ id              │               │
-         │               │ wallet_id       │               │
-         │               │ balance         │               │
-         │               │ changed_at      │               │
-         │               │ transaction_id  │───────────────┐
-         │               │ reason          │               │
-         │               └─────────────────┘  */
-         
-export class WalletStory extends Model<InferAttributes<WalletStory>, InferCreationAttributes<WalletStory>> {
+  type InferCreationAttributes,
+  type CreationOptional,
+} from "@sequelize/core";
+import {
+  Attribute,
+  PrimaryKey,
+  AutoIncrement,
+  NotNull,
+  Table,
+} from "@sequelize/core/decorators-legacy";
+
+@Table({ tableName: "wallet_balance_history", timestamps: false })
+export class WalletStory extends Model<
+  InferAttributes<WalletStory>,
+  InferCreationAttributes<WalletStory>
+> {
   @Attribute(DataTypes.INTEGER)
   @PrimaryKey
   @AutoIncrement
   declare id: CreationOptional<number>;
 
-  @Attribute(DataTypes.STRING)
+  @Attribute(DataTypes.INTEGER)
   @NotNull
-  declare title: string;
+  declare wallet_id: number;
 
-  @Attribute(DataTypes.STRING)
-  declare description: string | null;
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare balance: number;
 
+  @Attribute(DataTypes.INTEGER)
+  @NotNull
+  declare transaction_id: number;
   
+  @Attribute(DataTypes.STRING(50))
+  @NotNull
+  declare reason: string; // было number, исправил на string (creation, update, adjustment)
 
+
+  @Attribute(DataTypes.DATE)
+  @NotNull
+  declare changed_at: CreationOptional<Date>;
 }

@@ -119,3 +119,36 @@
                          │ parent_id       │───┘
                          │ parent_type     │
                          └─────────────────┘
+
+
+
+
+                         ┌─────────────────────────────────────────────────────────────────────────────┐
+│                           CLI STRUCTURE                                      │
+│                                                                              │
+│  budget-cli/                                                                 │
+│  ├── index.js                 # Главный файл, регистрация команд           │
+│  ├── package.json                                                           │
+│  ├── .env                     # API_URL, конфигурация                       │
+│  ├── .budget-config.json       # Сохраненные настройки, токен?              │
+│  │                                                                           │
+│  ├── commands/                                                              │
+│  │   ├── auth.js              # login, logout, register, whoami            │
+│  │   ├── wallet.js             # list, create, balance, delete             │
+│  │   ├── transaction.js        # add-income, add-expense, history, transfer│
+│  │   ├── category.js           # list, add, update, delete                  │
+│  │   ├── stats.js              # monthly, daily, categories, export        │
+│  │   ├── debt.js               # add, list, pay, status                     │
+│  │   └── config.js             # set-server, show-config                    │
+│  │                                                                           │
+│  ├── services/                                                              │
+│  │   ├── api.js                # HTTP клиент (axios) с интерцепторами      │
+│  │   ├── auth.js                # Управление токеном, сохранение           │
+│  │   ├── config.js              # Чтение/запись конфига                    │
+│  │   └── formatter.js           # Форматирование вывода (таблицы, цвета)   │
+│  │                                                                           │
+│  └── utils/                                                                  │
+│      ├── logger.js              # Цветной вывод                            │
+│      ├── validators.js          # Валидация ввода                           │
+│      └── errors.js              # Обработка ошибок                         │
+└─────────────────────────────────────────────────────────────────────────────┘
