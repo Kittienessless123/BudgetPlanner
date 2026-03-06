@@ -7,6 +7,8 @@ import { TokenService } from "../../token/service/token.service.ts";
 import { LoginRequestDto } from "../dto/login.dto.ts";
 
 export class AuthService {
+    constructor(private tokenService: TokenService) {}
+
   saltRounds = 5;
   async registration(email: string, password: string, name: string) {
     const authValidator = new AuthValidator();
@@ -16,9 +18,8 @@ export class AuthService {
     const userRepo = new UserRepository(registerDto);
     const registrationResult = await userRepo.create(registerDto);
     if (!registrationResult) throw new Error("register failed");
-    const tokenService = new TokenService();
-    const tokens = await tokenService.generateTokens({ ...registrationResult });
-    await tokenService.saveToken(registrationResult.id, tokens.refreshToken);
+    const tokens = await this.tokenService.generateTokens({ ...registrationResult });
+    await this.tokenService.saveToken(registrationResult.id, tokens.refreshToken);
     return {
       ...tokens,
       user: registrationResult,
@@ -35,10 +36,9 @@ export class AuthService {
       loginDto.password,
     );
     if (!loginResult) throw new Error("login failed");
-        const tokenService = new TokenService();
 
-    const tokens = tokenService.generateTokens({ ...loginResult });
-    await tokenService.saveToken(loginResult.id, tokens.refreshToken);
+    const tokens = this.tokenService.generateTokens({ ...loginResult });
+    await this.tokenService.saveToken(loginResult.id, tokens.refreshToken);
 
     return {
       ...tokens,
@@ -46,22 +46,34 @@ export class AuthService {
     };
   }
 
-  async logout(id: number) {
-    const tokenService = new TokenService();
-    const refreshToken = await tokenService.getTokenById(id);
-    const token = await tokenService.removeToken(refreshToken);
+  async logout(id: number ) {
+    const refreshToken = await this.tokenService.getTokenById(id);
+    const token = await this.tokenService.removeToken(refreshToken);
     return token;
   }
 
 
-  async refresh(refreshToken) {
+  async refresh(refreshToken : unknown ) {
     if (!refreshToken) throw new Error("login failed");
-        const tokenService = new TokenService();
 
-    const userData = tokenService.validateRefreshToken(refreshToken);
+    const userData = await this.tokenService.validateRefreshToken(refreshToken);
 
-    const tokenFromDto = await tokenService.findToken(refreshToken);
+    const tokenFromDto = await this.tokenService.findToken(refreshToken);
+/* 
+    const user = await getDb().models.User.findOne({
+      where: {
+        user_id: userData.user_id,
+      },
+    });
 
+    const userDto = new UserDto(user);
+    const tokens = await tokenService.generateTokens({ ...userDto }); */
+
+    await tokenService.saveToken(userDto.user_id, tokens.refreshToken);
+    return {
+      ...tokens,
+      user: userDto,
+    };
    
   }
 }

@@ -1,5 +1,4 @@
 import {
-  Sequelize,
   DataTypes,
   Model,
   type InferAttributes,
@@ -34,5 +33,5 @@ export class Bank extends Model<
 
   @Attribute(DataTypes.STRING)
   @NotNull
-  declare currency: string | null;
+  declare currency: string;
 }

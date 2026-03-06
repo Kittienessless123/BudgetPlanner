@@ -14,7 +14,6 @@ import {
   Table,
 } from "@sequelize/core/decorators-legacy";
 
-
 @Table({ tableName: 'debts', timestamps: true })
 export class Debts extends Model<
   InferAttributes<Debts>,

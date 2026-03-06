@@ -1,5 +1,4 @@
 import {
-  Sequelize,
   DataTypes,
   Model,
   type InferAttributes,
@@ -23,10 +22,11 @@ export class MoneyFlowType extends Model<
   @PrimaryKey
   @AutoIncrement
   declare id: CreationOptional<number>;
+
   @Attribute(DataTypes.STRING(50))
   @NotNull
-  declare name: string; // было title, исправил для консистентности
-
+  declare name: string;
+  
   @Attribute(DataTypes.STRING(30))
   @NotNull
   declare code: string; // income, expense, transfer, etc

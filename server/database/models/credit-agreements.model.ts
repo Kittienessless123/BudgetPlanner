@@ -1,11 +1,9 @@
 import {
-  Sequelize,
   DataTypes,
   Model,
   type InferAttributes,
   type InferCreationAttributes,
   type CreationOptional,
-  ForeignKeyBrand,
 } from "@sequelize/core";
 import {
   Attribute,
@@ -13,7 +11,6 @@ import {
   AutoIncrement,
   NotNull, Table
 } from "@sequelize/core/decorators-legacy";
-import { ForeignKeyConstraintError } from "sequelize";
 
 @Table({ tableName: 'credit_agreements', timestamps: true })
 export class CreditAgreement extends Model<

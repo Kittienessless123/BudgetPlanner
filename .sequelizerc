@@ -1,7 +1,7 @@
 const path = require('path');
 
 module.exports = {
-  config: path.resolve(__dirname, 'server/database/db.ts'),    // конфиг на TS
+  config: path.resolve(__dirname, 'server/database/config/index.ts'),    // конфиг на TS
   'models-path': path.resolve(__dirname, 'server/database/models'), // модели
   'migrations-path': path.resolve(__dirname, 'server/database/migrations'), // миграции
   'seeders-path': path.resolve(__dirname,'server/database/seeders') // сиды

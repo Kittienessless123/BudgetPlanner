@@ -1,23 +1,31 @@
 // base/base.repository.ts
-import { Model, type ModelStatic, Transaction, type WhereOptions, type FindOptions as SequelizeFindOptions } from '@sequelize/core';
-import type { 
-  IRepository, 
-  FindOptions as IFindOptions, 
-  CreateData, 
+import {
+  Model,
+  type ModelStatic,
+  Transaction,
+  type WhereOptions,
+  type FindOptions as SequelizeFindOptions,
+} from "@sequelize/core";
+import type {
+  IRepository,
+  FindOptions as IFindOptions,
+  CreateData,
   UpdateData,
-  TransactionOptions 
-} from './repository.types.ts';
+  TransactionOptions,
+} from "./repository.types.ts";
 
-export abstract class BaseRepository<T extends Model> implements IRepository<T> {
+export abstract class BaseRepository<
+  T extends Model,
+> implements IRepository<T> {
   constructor(protected model: ModelStatic<T>) {}
 
   async findById(
-    id: number | string, 
-    options?: TransactionOptions
+    id: number | string,
+    options?: TransactionOptions,
   ): Promise<T | null> {
     try {
-      return await this.model.findByPk(id, { 
-        transaction: options?.transaction 
+      return await this.model.findByPk(id, {
+        transaction: options?.transaction,
       });
     } catch (error) {
       throw new Error(`Error in findById: ${error}`);
@@ -25,13 +33,13 @@ export abstract class BaseRepository<T extends Model> implements IRepository<T> 
   }
 
   async findOne(
-    options: IFindOptions<T>, 
-    txOptions?: TransactionOptions
+    options: IFindOptions<T>,
+    txOptions?: TransactionOptions,
   ): Promise<T | null> {
     try {
       return await this.model.findOne({
         where: options.where as WhereOptions,
-        transaction: txOptions?.transaction
+        transaction: txOptions?.transaction,
       });
     } catch (error) {
       throw new Error(`Error in findOne: ${error}`);
@@ -39,8 +47,8 @@ export abstract class BaseRepository<T extends Model> implements IRepository<T> 
   }
 
   async findAll(
-    options?: IFindOptions<T>, 
-    txOptions?: TransactionOptions
+    options?: IFindOptions<T>,
+    txOptions?: TransactionOptions,
   ): Promise<T[]> {
     try {
       return await this.model.findAll({
@@ -48,7 +56,7 @@ export abstract class BaseRepository<T extends Model> implements IRepository<T> 
         limit: options?.limit,
         offset: options?.offset,
         order: options?.order,
-        transaction: txOptions?.transaction
+        transaction: txOptions?.transaction,
       });
     } catch (error) {
       throw new Error(`Error in findAll: ${error}`);
@@ -56,12 +64,12 @@ export abstract class BaseRepository<T extends Model> implements IRepository<T> 
   }
 
   async create(
-    data: CreateData<T>, 
-    txOptions?: TransactionOptions
+    data: CreateData<T>,
+    txOptions?: TransactionOptions,
   ): Promise<T> {
     try {
-      return await this.model.create(data as any, { 
-        transaction: txOptions?.transaction 
+      return await this.model.create(data as any, {
+        transaction: txOptions?.transaction,
       });
     } catch (error) {
       throw new Error(`Error in create: ${error}`);
@@ -69,16 +77,16 @@ export abstract class BaseRepository<T extends Model> implements IRepository<T> 
   }
 
   async update(
-    id: number | string, 
-    data: UpdateData<T>, 
-    txOptions?: TransactionOptions
+    id: number | string,
+    data: UpdateData<T>,
+    txOptions?: TransactionOptions,
   ): Promise<T | null> {
     try {
       const record = await this.findById(id, txOptions);
       if (!record) return null;
-      
-      await record.update(data, { 
-        transaction: txOptions?.transaction 
+
+      await record.update(data, {
+        transaction: txOptions?.transaction,
       });
       return record;
     } catch (error) {
@@ -87,13 +95,13 @@ export abstract class BaseRepository<T extends Model> implements IRepository<T> 
   }
 
   async delete(
-    id: number | string, 
-    txOptions?: TransactionOptions
+    id: number | string,
+    txOptions?: TransactionOptions,
   ): Promise<boolean> {
     try {
       const deleted = await this.model.destroy({
         where: { id } as WhereOptions,
-        transaction: txOptions?.transaction
+        transaction: txOptions?.transaction,
       });
       return deleted > 0;
     } catch (error) {
@@ -102,13 +110,13 @@ export abstract class BaseRepository<T extends Model> implements IRepository<T> 
   }
 
   async count(
-    where?: Partial<T['_attributes']>, 
-    txOptions?: TransactionOptions
+    where?: Partial<T["_attributes"]>,
+    txOptions?: TransactionOptions,
   ): Promise<number> {
     try {
       return await this.model.count({
         where: where as WhereOptions,
-        transaction: txOptions?.transaction
+        transaction: txOptions?.transaction,
       });
     } catch (error) {
       throw new Error(`Error in count: ${error}`);
@@ -117,7 +125,7 @@ export abstract class BaseRepository<T extends Model> implements IRepository<T> 
 
   async transaction<R>(callback: (t: Transaction) => Promise<R>): Promise<R> {
     if (!this.model.sequelize) {
-      throw new Error('Sequelize instance not found');
+      throw new Error("Sequelize instance not found");
     }
     return this.model.sequelize.transaction(callback);
   }

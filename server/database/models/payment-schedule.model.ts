@@ -48,5 +48,5 @@ export class PaymentSchedule extends Model<
   @Attribute(DataTypes.STRING(20))
   @NotNull
   @Default('pending')
-  declare payment_status: string; // pending, paid, overdue
+  declare payment_status_id: string; // pending, paid, overdue
 }

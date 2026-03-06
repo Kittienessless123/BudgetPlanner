@@ -22,6 +22,9 @@ export interface TokenPair {
 }
 
 export class TokenService {
+  getTokenById(id: number) {
+    throw new Error("Method not implemented.");
+  }
   constructor(private tokenRepository: TokenRepository) {}
 
   /**
