@@ -1,11 +1,10 @@
 // repositories/user.repository.ts
 import { BaseRepository } from "./base.repository.ts";
-import { User } from "../models/user.model.ts";
+import { User } from "@models/user.model.ts";
 import { Transaction, type ModelStatic } from "@sequelize/core";
 import { compare, hash } from "bcrypt";
 import type { TransactionOptions } from "./repository.types.ts";
 
-// Тип для пользователя с ассоциациями
 type UserWithAssociations = User & {
   wallets?: any[];
   transactions?: any[];
@@ -26,7 +25,6 @@ export class UserRepository extends BaseRepository<User> {
     super(model);
   }
 
-  // То что ты просила оставить
   async isAuth(id: number): Promise<boolean> {
     try {
       const user = await this.findById(id);
@@ -40,7 +38,7 @@ export class UserRepository extends BaseRepository<User> {
     const user = await this.findById(id);
     if (!user) return null;
 
-    const { password_hash, ...info } = user.get(); // Используем get() вместо toJSON()
+    const { password_hash, ...info } = user.get();
     return info;
   }
 
@@ -66,7 +64,6 @@ export class UserRepository extends BaseRepository<User> {
         };
       }
 
-      // Получаем данные через get()
       const userData = user.get();
 
       return {
@@ -79,7 +76,6 @@ export class UserRepository extends BaseRepository<User> {
     });
   }
 
-  // Дополнительные методы
   async findByEmail(
     email: string,
     options?: TransactionOptions,
@@ -158,5 +154,14 @@ export class UserRepository extends BaseRepository<User> {
       },
       options,
     );
+  }
+  async findByIdWithPassword(
+    id: number,
+    options?: TransactionOptions,
+  ): Promise<User | null> {
+    return this.model.findByPk(id, {
+      attributes: { include: ["password_hash"] },
+      transaction: options?.transaction,
+    });
   }
 }

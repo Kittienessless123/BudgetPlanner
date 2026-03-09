@@ -1,9 +1,9 @@
 // repositories/transaction.repository.ts
 import { BaseRepository } from './base.repository.ts';
-import { Transactions } from '../models/transactions.model.ts';
-import { Wallet } from '../models/wallet.model.ts';
-import { MoneyFlowType } from '../models/money-flow-types.model.ts';
-import { PaymentStatuses } from '../models/payment-statuses.model.ts';
+import { Transactions } from '@models/transactions.model.ts';
+import { Wallet } from '@models/wallet.model.ts';
+import { MoneyFlowType } from '@models/money-flow-types.model.ts';
+import { PaymentStatuses } from '@models/payment-statuses.model.ts';
 import { Transaction, type ModelStatic, Op, type WhereOptions } from '@sequelize/core';
 import { type TransactionOptions } from './repository.types.ts';
 import type {
@@ -16,7 +16,7 @@ import type {
   CreateTransactionDTO,
   CreateTransferDTO,
   UpdateTransactionDTO
-} from '../../src/modules/transaction/types/transaction.types.ts';
+} from '@modules/transaction/types/transaction.types.ts';
 
 export class TransactionRepository extends BaseRepository<Transactions> {
   constructor(model: ModelStatic<Transactions>) {

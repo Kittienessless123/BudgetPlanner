@@ -10,7 +10,7 @@ import {
   type FindOptions,
   type TransactionOptions,
 } from "./repository.types.ts";
-import type { PaymentSchedule } from "../models/payment-schedule.model.ts";
+import type { PaymentSchedule } from "@models/payment-schedule.model.ts";
 
 export class PaymentScheduleRepository extends BaseRepository<PaymentSchedule> {
   constructor(model: ModelStatic<PaymentSchedule>) {

@@ -1,33 +1,34 @@
 import type { NextFunction, Response, Request } from "express";
 import { UserService } from "../service/user.service.ts";
+import { Container } from "@di/container.ts";
 require("dotenv").config();
 
 export class UserController {
+  private userService = Container.get<UserService>("AuthService");
+  async updateUser() {}
+  async deleteAccount() {}
+
   async getUserDataByPk(req: Request, res: Response, next: NextFunction) {
     const { id } = req.body;
-    const authService = new UserService();
-    const result = await authService.getUserDataByPk(id);
+    const result = await this.userService.getUserDataByPk(id);
     return result;
   }
 
-  async getUserWallets(req: Request, res: Response, next: NextFunction) {
+  async getMyWallets(req: Request, res: Response, next: NextFunction) {
     const { id } = req.body;
-    const authService = new UserService();
-    const result = await authService.getUserWallets(id);
+    const result = await this.userService.getUserWallets(id);
     return result;
   }
 
-  async getUserDebts(req: Request, res: Response, next: NextFunction) {
+  async getMyDebts(req: Request, res: Response, next: NextFunction) {
     const { id } = req.body;
-    const authService = new UserService();
-    const result = await authService.getUserDebts(id);
+    const result = await this.userService.getUserDebts(id);
     return result;
   }
 
-  async userStats(req: Request, res: Response, next: NextFunction) {
+  async getMyStats(req: Request, res: Response, next: NextFunction) {
     const { id } = req.body;
-    const authService = new UserService();
-    const result = await authService.getUserStats(id);
+    const result = await this.userService.getUserStats(id);
     return result;
   }
 }

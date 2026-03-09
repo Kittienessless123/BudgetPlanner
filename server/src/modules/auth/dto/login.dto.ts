@@ -1,17 +1,21 @@
-import type { User } from "../types/auth.types.ts";
+export class LoginDto {
+  constructor(
+    public readonly email: string,
+    public readonly password: string
+  ) {}
+}
 
-export  class LoginRequestDto {
-  email: string;
-  password: string;
-  constructor(email : string, password : string, ) {
-    this.email = email;
-    this.password = password;
-  }
-};
+export class UpdateNameDto {
+  constructor(
+    public readonly userId: number,
+    public readonly newName: string
+  ) {}
+}
 
-module.exports = class LoginResponseDto {
-  id: number;
-  constructor(model: User) {
-    this.id = model.id;
-  }
-};
+export class ResetPasswordDto {
+  constructor(
+    public readonly userId: number,
+    public readonly oldPassword: string,
+    public readonly newPassword: string
+  ) {}
+}

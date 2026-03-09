@@ -1,7 +1,6 @@
 // auth/auth.constants.ts
-import { type IModuleMessages } from '../../../shared/types/messages.types.ts';
+import { type IModuleMessages } from '@shared/types/messages.types.ts';
 
-// Литеральные типы для ключей
 export type AuthErrorKey = 
   | 'INVALID_CREDENTIALS'
   | 'USER_NOT_FOUND'
@@ -77,6 +76,5 @@ export const AUTH_MESSAGES: IModuleMessages<AuthErrorKey, AuthSuccessKey> = {
   },
 };
 
-// Отдельные объекты для удобства
 export const AUTH_ERRORS = AUTH_MESSAGES.errors;
 export const AUTH_SUCCESS = AUTH_MESSAGES.success;

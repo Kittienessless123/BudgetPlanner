@@ -44,6 +44,14 @@
     "allowImportingTsExtensions": true,
     "noEmit": true,
     "experimentalDecorators": true, // включает поддержку декораторов
-    "emitDecoratorMetadata": true
+    "emitDecoratorMetadata": true,
+    "baseUrl": "./", // корневая директория проекта (обычно там, где лежит tsconfig)
+    "paths": {
+      "@modules/*": ["src/modules/*"],
+      "@repositories/*": ["database/repositories/*"],
+      "@models/*": ["database/models/*"],
+      "@shared/*": ["src/shared/*"],
+      "@di/*": ["database/di/*"]
+    }
   }
 }

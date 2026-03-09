@@ -10,7 +10,7 @@ import {
   type FindOptions,
   type TransactionOptions,
 } from "./repository.types.ts";
-import type { UsersPCategory } from "../models/users-p-cat.model.ts";
+import type { UsersPCategory } from "@models/users-p-cat.model.ts";
 
 export class BankRepository extends BaseRepository<UsersPCategory> {
   constructor(model: ModelStatic<UsersPCategory>) {

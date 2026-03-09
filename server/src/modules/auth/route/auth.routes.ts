@@ -9,3 +9,4 @@ AuthRouter.post("/logout");
 
 AuthRouter.get("/refresh",);
 
+export default AuthRouter;

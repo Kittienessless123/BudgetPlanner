@@ -81,13 +81,11 @@ export function setupDI() {
   );
   
   Container.register('AuthService', () => 
-    new AuthService(
-      Container.get('UserRepository'),
-      Container.get('TokenService')
-      // WalletRepository может не нужен в AuthService, убираем если не используется
-    )
-  );
-  
+  new AuthService(
+    Container.get('UserRepository'),
+    Container.get('TokenService')
+  )
+);
   // User модуль
   Container.register('UserService', () => 
     new UserService(

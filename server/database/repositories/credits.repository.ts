@@ -10,7 +10,7 @@ import {
   type FindOptions,
   type TransactionOptions,
 } from "./repository.types.ts";
-import type { CreditPayments } from "../models/credit-payments.model.ts";
+import type { CreditPayments } from "@models/credit-payments.model.ts";
 
 export class CreditRepository extends BaseRepository<CreditPayments> {
   constructor(model: ModelStatic<CreditPayments>) {

@@ -9,7 +9,7 @@ import {
   type TransactionOptions,
   type UpdateData,
 } from "./repository.types.ts";
-import type { Wallet } from "../models/wallet.model.ts";
+import type { Wallet } from "@models/wallet.model.ts";
 
 export class WalletRepository extends BaseRepository<Wallet> {
   constructor(model: ModelStatic<Wallet>) {

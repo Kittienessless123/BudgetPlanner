@@ -2,7 +2,7 @@
 import { Sequelize } from "sequelize";
 import { getSequelizeOptions } from "../config/config.ts";
 import { setupConnections } from "../models/connections.ts";
-import * as models from "../models/index.ts"; // импортируем все модели сразу
+import * as models from "../models/index.ts"; 
 
 let sequelizeInstance: Sequelize | null = null;
 
@@ -39,7 +39,7 @@ export const initDb = async (): Promise<Sequelize> => {
       console.log("📦 Database synced with force");
     } else {
       console.log("📦 Production mode - verification only");
-      await sequelizeInstance.sync(); // Проверяем, что таблицы существуют
+      await sequelizeInstance.sync();
     }
 
     return sequelizeInstance;
