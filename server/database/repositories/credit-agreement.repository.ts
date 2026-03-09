@@ -34,6 +34,19 @@ export class CreditAgreementRepository extends BaseRepository<CreditAgreement> {
     }
   }
 
+  async findByUserId(
+    id: number,
+    options?: TransactionOptions,
+  ): Promise<CreditAgreement[]> {
+    return this.findAll(
+      {
+        where: { user_id: id },
+      },
+      options,
+    );
+  }
+
+
   async findById(
     id: number | string,
     options?: TransactionOptions,

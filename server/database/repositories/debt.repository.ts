@@ -17,6 +17,18 @@ export class DebtsRepository extends BaseRepository<Debts> {
     super(model);
   }
 
+  async findByUserId(
+    userId: number,
+    options?: TransactionOptions,
+  ): Promise<Debts[]> {
+    return this.findAll(
+      {
+        where: { user_id: userId },
+      },
+      options,
+    );
+  }
+
   async findOne(
     options: FindOptions<Debts>,
     txOptions?: TransactionOptions,

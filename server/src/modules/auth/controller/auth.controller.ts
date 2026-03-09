@@ -59,17 +59,6 @@ export class AuthController {
     }
   }
 
-  async updateName(req: Request, res: Response, next: NextFunction) {
-    try {
-      const userId = (req as any).user.id;
-      const dto = new UpdateNameDto(userId, req.body.newName);
-      const result = await this.authService.updateName(dto);
-      return res.json(result);
-    } catch (e) {
-      next(e);
-    }
-  }
-
   async resetPassword(req: Request, res: Response, next: NextFunction) {
     try {
       const userId = (req as any).user.id;

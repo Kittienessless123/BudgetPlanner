@@ -47,6 +47,18 @@ export class BankRepository extends BaseRepository<UsersPCategory> {
     }
   }
 
+  async findByUserId(
+    id: number,
+    options?: TransactionOptions,
+  ): Promise<UsersPCategory[]> {
+    return this.findAll(
+      {
+        where: { user_id: id },
+      },
+      options,
+    );
+  }
+
   async findOne(
     options: FindOptions<UsersPCategory>,
     txOptions?: TransactionOptions,

@@ -101,26 +101,6 @@ export class AuthService {
     };
   }
 
-  async updateName(dto: UpdateNameDto) {
-    const user = await this.userRepository.findById(dto.userId);
-    if (!user) {
-      throw new AuthError("USER_NOT_FOUND", 404);
-    }
-
-    const updatedUser = await this.userRepository.update(dto.userId, {
-      name: dto.newName,
-    });
-
-    if (!updatedUser) {
-      throw new AuthError("USER_NOT_FOUND", 404);
-    }
-
-    const { password_hash, ...userWithoutPassword } = updatedUser.get();
-    return {
-      message: "Name updated successfully",
-      user: userWithoutPassword,
-    };
-  }
 
   async resetPassword(dto: ResetPasswordDto) {
     const userWithPassword = await this.userRepository.findByIdWithPassword(

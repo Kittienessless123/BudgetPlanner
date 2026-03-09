@@ -34,6 +34,18 @@ export class CreditRepository extends BaseRepository<CreditPayments> {
     }
   }
 
+/*   async findByUserId(
+    id: number,
+    options?: TransactionOptions,
+  ): Promise<CreditPayments[]> {
+    return this.findAll(
+      {
+        where: { user_id: id },
+      },
+      options,
+    );
+  } */
+
   async findOne(
     options: FindOptions<CreditPayments>,
     txOptions?: TransactionOptions,

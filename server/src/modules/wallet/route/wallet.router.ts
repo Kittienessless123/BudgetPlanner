@@ -1,10 +1,12 @@
-const Router = require("express");
-const WalletRouter = new Router();
-const { body } = require("express-validator");
+
+
+import { Router } from 'express';
+import { authMiddleware } from '@shared/middlewares/auth.middleware.ts'; // путь к middleware
+
+const WalletRouter = Router();
+
+WalletRouter.use(authMiddleware);
 
 WalletRouter.post("/wallet"); //change Wallet
-WalletRouter.delete("/wallet"); //delete Wallet
-WalletRouter.get("/wallet"); //get User Wallet
-WalletRouter.get("/myWallets"); //
-WalletRouter.get("/myDebts"); //
-WalletRouter.get("/myStats"); //
+WalletRouter.delete("/wallet/id"); //delete Wallet
+WalletRouter.get("/wallet"); //get Use

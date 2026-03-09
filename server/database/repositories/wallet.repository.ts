@@ -1,8 +1,5 @@
 import { BaseRepository } from "./base.repository.ts";
-import {
-  type ModelStatic,
-  type WhereOptions,
-} from "@sequelize/core";
+import { type ModelStatic, type WhereOptions } from "@sequelize/core";
 import {
   type CreateData,
   type FindOptions,
@@ -14,6 +11,18 @@ import type { Wallet } from "@models/wallet.model.ts";
 export class WalletRepository extends BaseRepository<Wallet> {
   constructor(model: ModelStatic<Wallet>) {
     super(model);
+  }
+
+  async findByUserId(
+    userId: number,
+    options?: TransactionOptions,
+  ): Promise<Wallet[]> {
+    return this.findAll(
+      {
+        where: { user_id: userId },
+      },
+      options,
+    );
   }
 
   async findById(
