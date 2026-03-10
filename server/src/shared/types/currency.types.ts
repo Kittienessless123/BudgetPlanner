@@ -1,5 +1,3 @@
-// types/currency.types.ts
-
 export type CurrencyCode = 
   | 'RUB' | 'USD' | 'EUR' | 'GBP' | 'CNY' | 'JPY'
   | 'KZT' | 'BYN' | 'UAH' | 'CHF' | 'CAD' | 'AUD'

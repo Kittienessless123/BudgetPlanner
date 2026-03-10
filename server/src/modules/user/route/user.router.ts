@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import { UserController } from '../controller/user.controller.ts'; // путь к контроллеру пользователя
-import { authMiddleware } from '@shared/middlewares/auth.middleware.ts'; // путь к middleware
+import { UserController } from '../controller/user.controller.ts';  
+import { authMiddleware } from '@shared/middlewares/auth.middleware.ts'; 
 
 const UserRouter = Router();
 
@@ -8,12 +8,12 @@ UserRouter.use(authMiddleware);
 
 const userController = new UserController();
 
-UserRouter.get('/user', userController.getUserDataByPk.bind(userController));          // получение информации
-UserRouter.post('/user', userController.updateUser.bind(userController));          // изменение данных
-UserRouter.delete('/user', userController.deleteAccount.bind(userController));     // удаление аккаунта
+UserRouter.get('/user', userController.getUserDataByPk.bind(userController));          
+UserRouter.post('/user', userController.updateUser.bind(userController));          
+UserRouter.delete('/user', userController.deleteAccount.bind(userController));     
 
-UserRouter.get('/myWallets', userController.getMyWallets.bind(userController));    // кошельки
-UserRouter.get('/myDebts', userController.getMyDebts.bind(userController));        // долги
-UserRouter.get('/myStats', userController.getMyStats.bind(userController));        // статистика
+UserRouter.get('/myWallets', userController.getMyWallets.bind(userController));   
+UserRouter.get('/myDebts', userController.getMyDebts.bind(userController));       
+UserRouter.get('/myStats', userController.getMyStats.bind(userController));        
 
 export default UserRouter;

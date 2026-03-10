@@ -6,7 +6,6 @@ const logger = new LoggerService('HTTP');
 export const httpLogger = (req: Request, res: Response, next: NextFunction) => {
   const start = Date.now();
 
-  // Логируем после завершения запроса
   res.on('finish', () => {
     const responseTime = Date.now() - start;
     logger.logRequest(req, res, responseTime);
@@ -15,7 +14,6 @@ export const httpLogger = (req: Request, res: Response, next: NextFunction) => {
   next();
 };
 
-// Middleware для логирования ошибок
 export const errorLogger = (err: any, req: Request, res: Response, next: NextFunction) => {
   const errorLogger = new LoggerService('ERROR');
   

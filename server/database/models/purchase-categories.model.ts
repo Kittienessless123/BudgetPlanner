@@ -27,12 +27,12 @@ export class PurchaseCat extends Model<
 
   @Attribute(DataTypes.STRING(100))
   @NotNull
-  declare name: string; // было number, исправил на string
+  declare name: string;
 
   @Attribute(DataTypes.INTEGER)
   @NotNull
   @Default(0)
-  declare parent_id: number; // 0 - корневая категория
+  declare parent_id: number;
 
   @Attribute(DataTypes.BOOLEAN)
   @NotNull

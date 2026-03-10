@@ -1,5 +1,3 @@
-// types/credit.types.ts
-
 export type CreditStatus = 
   | 'ACTIVE'           // активный
   | 'CLOSED'           // закрыт

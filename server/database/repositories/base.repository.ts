@@ -1,4 +1,3 @@
-// base/base.repository.ts
 import {
   Model,
   type ModelStatic,

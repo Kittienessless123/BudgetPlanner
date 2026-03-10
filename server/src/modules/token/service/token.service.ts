@@ -1,4 +1,3 @@
-// services/token.service.ts
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 import {
@@ -48,7 +47,7 @@ export class TokenService {
       const tokenData: CreateTokenDTO = {
         user_id: userId,
         refresh_token: refreshToken,
-        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 дней
+        expires_at: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), 
         ip_address: metadata?.ip_address ?? null,
         user_agent: metadata?.user_agent ?? null,
       };

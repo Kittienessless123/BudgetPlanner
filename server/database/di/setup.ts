@@ -1,34 +1,42 @@
 import { Container } from "./container.ts";
-import { User } from "../models/user.model.ts";
-import { Wallet } from "../models/wallet.model.ts";
-import { Transactions } from "../models/transactions.model.ts";
-import { Token } from "../models/token.model.ts";
-import { Bank } from "../models/bank.model.ts";
-import { CreditAgreement } from "../models/credit-agreements.model.ts";
-import { Debts } from "../models/debts.model.ts";
-import { MoneyFlowType } from "../models/money-flow-types.model.ts";
-import { PaymentStatuses } from "../models/payment-statuses.model.ts";
-import { PurchaseCat } from "../models/purchase-categories.model.ts";
+import { User } from "@models/user.model.ts";
+import { Wallet } from "@models/wallet.model.ts";
+import { Transactions } from "@models/transactions.model.ts";
+import { Token } from "@models/token.model.ts";
+import { Bank } from "@models/bank.model.ts";
+import { CreditAgreement } from "@models/credit-agreements.model.ts";
+import { Debts } from "@models/debts.model.ts";
+import { MoneyFlowType } from "@models/money-flow-types.model.ts";
+import { PaymentStatuses } from "@models/payment-statuses.model.ts";
+import { PurchaseCat } from "@models/purchase-categories.model.ts";
+import { UserBank } from "@models/usersbanks.model.ts";
+import { UsersPCategory } from "@models/users-p-cat.model.ts";
 
-import { UserRepository } from "../repositories/users.repository.ts";
-import { WalletRepository } from "../repositories/wallet.repository.ts";
-import { TransactionRepository } from "../repositories/transactions.repository.ts";
-import { TokenRepository } from "../repositories/token.repository.ts";
-import { BankRepository } from "../repositories/bank.repository.ts";
-import { CreditAgreementRepository } from "../repositories/credit-agreement.repository.ts";
-import { DebtsRepository } from "../repositories/debt.repository.ts";
+import { UserRepository } from "@repositories/users.repository.ts";
+import { WalletRepository } from "@repositories/wallet.repository.ts";
+import { TransactionRepository } from "@repositories/transactions.repository.ts";
+import { TokenRepository } from "@repositories/token.repository.ts";
+import { BankRepository } from "@repositories/bank.repository.ts";
+import { CreditAgreementRepository } from "@repositories/credit-agreement.repository.ts";
+import { DebtsRepository } from "@repositories/debt.repository.ts";
+import { UserBankRepository } from "@repositories/usersbanks.repository.ts";
+import { CategoryRepository } from "@repositories/category.repository.ts";
 
-import { AuthService } from "../../src/modules/auth/service/auth.service.ts";
-import { TokenService } from "../../src/modules/token/service/token.service.ts";
-import { UserService } from "../../src/modules/user/service/user.service.ts";
-import { WalletService } from "../../src/modules/wallet/service/wallet.service.ts";
-import { TransactionService } from "../../src/modules/transaction/service/transaction.service.ts";
-import { BankService } from "../../src/modules/bank/service/bank.service.ts";
-import { CreditService } from "../../src/modules/credit/service/credit.service.ts";
-import { DebtsService } from "../../src/modules/debts/service/debts.service.ts";
-import { StatisticsService } from "../../src/modules/statistics/service/statistics.service.ts";
+import { AuthService } from "@modules/auth/service/auth.service.ts";
+import { TokenService } from "@modules/token/service/token.service.ts";
+import { UserService } from "@modules/user/service/user.service.ts";
+import { WalletService } from "@modules/wallet/service/wallet.service.ts";
+import { TransactionService } from "@modules/transaction/service/transaction.service.ts";
+import { BankService } from "@modules/bank/service/bank.service.ts";
+import { CreditService } from "@modules/credit/service/credit.service.ts";
+import { DebtsService } from "@modules/debts/service/debts.service.ts";
+import { StatisticsService } from "@modules/statistics/service/statistics.service.ts";
+import { UserBankService } from "@modules/usersbanks/service/ub.service.ts";
+import { UsersCategoryService } from "@modules/category/service/users-category.service.ts";
+import { CategoryReferenceService } from "@modules/category/service/category-reference.service.ts";
 
 export function setupDI() {
+  // ============ МОДЕЛИ ============
   Container.register("User", () => User);
   Container.register("Wallet", () => Wallet);
   Container.register("Transaction", () => Transactions);
@@ -39,7 +47,10 @@ export function setupDI() {
   Container.register("MoneyFlowType", () => MoneyFlowType);
   Container.register("PaymentStatuses", () => PaymentStatuses);
   Container.register("PurchaseCat", () => PurchaseCat);
+  Container.register("UserBank", () => UserBank);
+  Container.register("UsersPCategory", () => UsersPCategory);
 
+  // ============ РЕПОЗИТОРИИ ============
   Container.register(
     "UserRepository",
     () => new UserRepository(Container.get("User")),
@@ -75,6 +86,17 @@ export function setupDI() {
     () => new DebtsRepository(Container.get("Debts")),
   );
 
+  Container.register(
+    "UserBankRepository",
+    () => new UserBankRepository(Container.get("UserBank")),
+  );
+
+  Container.register(
+    "CategoryRepository",
+    () => new CategoryRepository(Container.get("UsersPCategory")),
+  );
+
+  // ============ СЕРВИСЫ ============
   Container.register(
     "TokenService",
     () => new TokenService(Container.get("TokenRepository")),
@@ -142,6 +164,25 @@ export function setupDI() {
   );
 
   Container.register(
+    "UserBankService",
+    () =>
+      new UserBankService(
+        Container.get("TokenService"),
+        Container.get("UserBankRepository"),
+        Container.get("BankRepository"),
+      ),
+  );
+
+  Container.register(
+    "UsersCategoryService",
+    () =>
+      new UsersCategoryService(
+        Container.get("TokenService"),
+        Container.get("CategoryRepository"),
+      ),
+  );
+
+  Container.register(
     "StatisticsService",
     () =>
       new StatisticsService(
@@ -150,6 +191,9 @@ export function setupDI() {
         Container.get("UserRepository"),
       ),
   );
-
+  Container.register(
+    "CategoryReferenceService",
+    () => new CategoryReferenceService(Container.get("CategoryRepository")),
+  );
   console.log("✅ DI Container initialized with all services");
 }

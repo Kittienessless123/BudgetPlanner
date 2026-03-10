@@ -1,5 +1,3 @@
-// types/db-enums.types.ts
-
 export const CurrencyEnum = [
   'RUB', 'USD', 'EUR', 'GBP', 'CNY', 'JPY',
   'KZT', 'BYN', 'UAH', 'CHF', 'CAD', 'AUD'

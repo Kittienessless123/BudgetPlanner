@@ -1,4 +1,3 @@
-// types/messages.types.ts
 export interface IMessageTemplate {
   readonly [key: string]: string;
 }

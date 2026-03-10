@@ -1,5 +1,3 @@
-// types/payment-status.types.ts
-
 export type PaymentStatusCode = 
   | 'PENDING'           // ожидает
   | 'COMPLETED'         // завершен

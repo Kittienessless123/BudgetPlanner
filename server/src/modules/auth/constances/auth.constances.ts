@@ -1,4 +1,3 @@
-// auth/auth.constants.ts
 import { type IModuleMessages } from '@shared/types/messages.types.ts';
 
 export type AuthErrorKey = 

@@ -1,6 +1,3 @@
-// types/index.ts (расширенная версия)
-
-// 1. Реэкспорт всего
 export * from './currency.types.ts';
 export * from './money-flow.types.ts';
 export * from './payment-status.types.ts';
@@ -11,7 +8,6 @@ export * from './transaction.types.ts';
 export * from './balance.types.ts';
 export * from './db-enums.types.ts';
 
-// 2. Группировка по неймспейсам для удобства
 import * as CurrencyTypes from './currency.types.ts';
 import * as MoneyFlowTypes from './money-flow.types.ts';
 import * as PaymentStatusTypes from './payment-status.types.ts';

@@ -2,12 +2,10 @@ import winston from 'winston';
 import fs from 'fs';
 import { loggerConfig } from './logger.config.ts';
 
-// Создаем папку для логов, если её нет
 if (!fs.existsSync(loggerConfig.logDir)) {
   fs.mkdirSync(loggerConfig.logDir, { recursive: true });
 }
 
-// Создаем логгер
 const logger = winston.createLogger({
   level: process.env.LOG_LEVEL || 'info',
   format: winston.format.combine(
@@ -26,7 +24,6 @@ const logger = winston.createLogger({
   exitOnError: false,
 });
 
-// Добавляем методы для удобства
 export class LoggerService {
   private context?: string;
 
@@ -59,7 +56,6 @@ export class LoggerService {
     logger.http(this.formatMessage(message), meta);
   }
 
-  // Для логирования запросов
   logRequest(req: any, res: any, responseTime?: number) {
     const message = `${req.method} ${req.url} ${res.statusCode} ${responseTime}ms`;
     const meta = {
@@ -80,5 +76,4 @@ export class LoggerService {
   }
 }
 
-// Экспортируем инстанс для простого импорта
 export default new LoggerService();

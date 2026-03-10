@@ -30,7 +30,7 @@ export class UsersPCategory extends Model<
 
   @Attribute(DataTypes.STRING(100))
   @NotNull
-  declare name: string; // было number, исправил
+  declare name: string;
 
   @Attribute(DataTypes.INTEGER)
   @NotNull
@@ -38,5 +38,5 @@ export class UsersPCategory extends Model<
 
   @Attribute(DataTypes.STRING(20))
   @NotNull
-  declare parent_type: string; // 'system' или 'user'
+  declare parent_type: string;
 }

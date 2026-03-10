@@ -1,4 +1,3 @@
-// models/transactions.model.ts
 import {
   DataTypes,
   Model,
@@ -15,14 +14,14 @@ import {
   Default,
   BelongsTo,
 } from "@sequelize/core/decorators-legacy";
-import { User } from './user.model.ts';
-import { Wallet } from './wallet.model.ts';
-import { MoneyFlowType } from './money-flow-types.model.ts';
-import { PaymentStatuses } from './payment-statuses.model.ts';
-import { PurchaseCat } from './purchase-categories.model.ts';
-import { UsersPCategory } from './users-p-cat.model.ts';
+import { User } from "./user.model.ts";
+import { Wallet } from "./wallet.model.ts";
+import { MoneyFlowType } from "./money-flow-types.model.ts";
+import { PaymentStatuses } from "./payment-statuses.model.ts";
+import { PurchaseCat } from "./purchase-categories.model.ts";
+import { UsersPCategory } from "./users-p-cat.model.ts";
 
-@Table({ tableName: 'transactions', timestamps: true })
+@Table({ tableName: "transactions", timestamps: true })
 export class Transactions extends Model<
   InferAttributes<Transactions>,
   InferCreationAttributes<Transactions>
@@ -69,29 +68,27 @@ export class Transactions extends Model<
   @Attribute(DataTypes.INTEGER)
   declare related_tx_id: number | null;
 
-  // Ассоциации
-  @BelongsTo(() => User, 'user_id')
+  @BelongsTo(() => User, "user_id")
   declare user?: User;
 
-  @BelongsTo(() => Wallet, 'wallet_id')
+  @BelongsTo(() => Wallet, "wallet_id")
   declare wallet?: Wallet;
 
-  @BelongsTo(() => MoneyFlowType, 'money_flow_type_id')
+  @BelongsTo(() => MoneyFlowType, "money_flow_type_id")
   declare flowType?: MoneyFlowType;
 
-  @BelongsTo(() => PaymentStatuses, 'status_id')
+  @BelongsTo(() => PaymentStatuses, "status_id")
   declare status?: PaymentStatuses;
 
-  @BelongsTo(() => PurchaseCat, 'purchase_cat_id')
+  @BelongsTo(() => PurchaseCat, "purchase_cat_id")
   declare systemCategory?: PurchaseCat;
 
-  @BelongsTo(() => UsersPCategory, 'user_cat_id')
+  @BelongsTo(() => UsersPCategory, "user_cat_id")
   declare userCategory?: UsersPCategory;
 
-  @BelongsTo(() => Transactions, 'related_tx_id')
+  @BelongsTo(() => Transactions, "related_tx_id")
   declare relatedTransaction?: Transactions;
 
-  // Вспомогательные методы
   get isIncome(): boolean {
     return this.amount > 0;
   }

@@ -1,8 +1,7 @@
-// db/index.ts
 import { Sequelize } from "sequelize";
 import { getSequelizeOptions } from "../config/config.ts";
 import { setupConnections } from "../models/connections.ts";
-import * as models from "../models/index.ts"; 
+import * as models from "../models/index.ts";
 
 let sequelizeInstance: Sequelize | null = null;
 
@@ -63,6 +62,5 @@ export const closeDb = async (): Promise<void> => {
     console.log("🔌 Database connection closed");
   }
 };
-
 
 export default sequelizeInstance;

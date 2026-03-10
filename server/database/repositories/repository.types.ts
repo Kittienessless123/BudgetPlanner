@@ -1,11 +1,9 @@
-// types/repository.types.ts
 import { Model, Transaction } from "@sequelize/core";
 
 export interface TransactionOptions {
   transaction?: Transaction;
 }
 
-// Остальные типы остаются без изменений
 export interface FindOptions<T extends Model> {
   where?: Partial<T["_attributes"]>;
   limit?: number;

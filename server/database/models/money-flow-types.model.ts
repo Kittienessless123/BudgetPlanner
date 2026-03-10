@@ -26,12 +26,12 @@ export class MoneyFlowType extends Model<
   @Attribute(DataTypes.STRING(50))
   @NotNull
   declare name: string;
-  
+
   @Attribute(DataTypes.STRING(30))
   @NotNull
-  declare code: string; // income, expense, transfer, etc
+  declare code: string;
 
   @Attribute(DataTypes.STRING(10))
   @NotNull
-  declare direction: string; // 'in' или 'out'
+  declare direction: string;
 }

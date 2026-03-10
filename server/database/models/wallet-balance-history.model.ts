@@ -35,11 +35,10 @@ export class WalletStory extends Model<
   @Attribute(DataTypes.INTEGER)
   @NotNull
   declare transaction_id: number;
-  
+
   @Attribute(DataTypes.STRING(50))
   @NotNull
-  declare reason: string; // было number, исправил на string (creation, update, adjustment)
-
+  declare reason: string;
 
   @Attribute(DataTypes.DATE)
   @NotNull

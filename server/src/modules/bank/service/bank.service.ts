@@ -4,4 +4,9 @@ require("dotenv").config();
 
 export class BankService {
   constructor(private bankRepository: BankRepository) {}
+
+  async getAll() {
+    const result = await this.bankRepository.findAll();
+    return result;
+  }
 }

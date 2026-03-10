@@ -30,5 +30,5 @@ export class PaymentStatuses extends Model<
 
   @Attribute(DataTypes.STRING(20))
   @NotNull
-  declare code: string; // pending, completed, failed, cancelled
+  declare code: string;
 }

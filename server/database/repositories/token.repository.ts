@@ -1,4 +1,3 @@
-// repositories/token.repository.ts
 import { BaseRepository } from "./base.repository.ts";
 import { Token } from "@models/token.model.ts";
 import { type ModelStatic, Transaction, Op } from "@sequelize/core";

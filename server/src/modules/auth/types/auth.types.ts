@@ -1,6 +1,5 @@
 import type { UserStats } from "../../../../database/repositories/users.repository.ts";
 
-// types/user.types.ts
 export interface CreateUserInput {
   email: string;
   password: string;

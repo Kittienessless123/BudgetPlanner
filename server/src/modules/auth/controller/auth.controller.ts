@@ -1,4 +1,3 @@
-// controller/auth.controller.ts
 import type { NextFunction, Response, Request } from "express";
 import "dotenv/config";
 import { AuthService } from "../service/auth.service.ts";

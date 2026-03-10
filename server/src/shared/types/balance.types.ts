@@ -1,5 +1,3 @@
-// types/balance.types.ts
-
 export type BalanceChangeReason = 
   | 'transaction'
   | 'correction'

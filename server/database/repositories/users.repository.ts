@@ -1,4 +1,3 @@
-// repositories/user.repository.ts
 import { BaseRepository } from "./base.repository.ts";
 import { User } from "@models/user.model.ts";
 import { Transaction, type ModelStatic } from "@sequelize/core";

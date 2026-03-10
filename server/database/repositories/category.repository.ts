@@ -12,7 +12,7 @@ import {
 } from "./repository.types.ts";
 import type { UsersPCategory } from "@models/users-p-cat.model.ts";
 
-export class BankRepository extends BaseRepository<UsersPCategory> {
+export class CategoryRepository extends BaseRepository<UsersPCategory> {
   constructor(model: ModelStatic<UsersPCategory>) {
     super(model);
   }
@@ -129,6 +129,76 @@ export class BankRepository extends BaseRepository<UsersPCategory> {
       });
     } catch (error) {
       throw new Error(`Error in count: ${error}`);
+    }
+  }
+
+  async findByNameAndUser(
+    name: string,
+    userId: number,
+    options?: TransactionOptions,
+  ): Promise<UsersPCategory | null> {
+    try {
+      return await this.model.findOne({
+        where: {
+          name,
+          user_id: userId,
+        } as WhereOptions,
+        transaction: options?.transaction,
+      });
+    } catch (error) {
+      throw new Error(`Error in findByNameAndUser: ${error}`);
+    }
+  }
+
+  async findByParent(
+    parentId: number,
+    parentType: string,
+    userId?: number,
+    options?: TransactionOptions,
+  ): Promise<UsersPCategory[]> {
+    try {
+      const where: any = {
+        parent_id: parentId,
+        parent_type: parentType,
+      };
+
+      if (userId) {
+        where.user_id = userId;
+      }
+
+      return await this.model.findAll({
+        where,
+        transaction: options?.transaction,
+      });
+    } catch (error) {
+      throw new Error(`Error in findByParent: ${error}`);
+    }
+  }
+
+  async findSystemCategories(
+    options?: TransactionOptions,
+  ): Promise<UsersPCategory[]> {
+    try {
+      return await this.model.findAll({
+        where: { parent_type: "system" } as WhereOptions,
+        transaction: options?.transaction,
+      });
+    } catch (error) {
+      throw new Error(`Error in findSystemCategories: ${error}`);
+    }
+  }
+
+  async deleteByUserId(
+    userId: number,
+    options?: TransactionOptions,
+  ): Promise<number> {
+    try {
+      return await this.model.destroy({
+        where: { user_id: userId } as WhereOptions,
+        transaction: options?.transaction,
+      });
+    } catch (error) {
+      throw new Error(`Error in deleteByUserId: ${error}`);
     }
   }
 }

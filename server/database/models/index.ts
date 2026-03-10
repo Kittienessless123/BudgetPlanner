@@ -1,4 +1,3 @@
-// models/index.ts
 import { Bank } from "./bank.model.ts";
 import { CreditAgreement } from "./credit-agreements.model.ts";
 import { CreditPayments } from "./credit-payments.model.ts";

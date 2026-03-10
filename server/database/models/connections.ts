@@ -1,4 +1,3 @@
-// models/associations.ts
 import { User } from "./user.model.ts";
 import { Token } from "./token.model.ts";
 import { Wallet } from "./wallet.model.ts";
@@ -15,7 +14,6 @@ import { UsersPCategory } from "./users-p-cat.model.ts";
 import { WalletStory } from "./wallet-balance-history.model.ts";
 
 export const setupConnections = () => {
-  // User associations
   User.hasMany(Wallet, {
     foreignKey: "user_id",
     as: "wallets",
@@ -52,7 +50,6 @@ export const setupConnections = () => {
     sourceKey: "id",
   });
 
-  // Wallet associations
   Wallet.belongsTo(User, {
     foreignKey: "user_id",
     as: "user",
@@ -71,7 +68,6 @@ export const setupConnections = () => {
     sourceKey: "id",
   });
 
-  // WalletStory associations
   WalletStory.belongsTo(Wallet, {
     foreignKey: "wallet_id",
     as: "wallet",
@@ -84,7 +80,6 @@ export const setupConnections = () => {
     targetKey: "id",
   });
 
-  // Transactions associations
   Transactions.belongsTo(User, {
     foreignKey: "user_id",
     as: "user",
@@ -139,7 +134,6 @@ export const setupConnections = () => {
     sourceKey: "id",
   });
 
-  // CreditAgreement associations
   CreditAgreement.belongsTo(User, {
     foreignKey: "user_id",
     as: "user",
@@ -164,7 +158,6 @@ export const setupConnections = () => {
     sourceKey: "id",
   });
 
-  // CreditPayments associations
   CreditPayments.belongsTo(CreditAgreement, {
     foreignKey: "credit_agree_id",
     as: "agreement",
@@ -177,7 +170,6 @@ export const setupConnections = () => {
     targetKey: "id",
   });
 
-  // PaymentSchedule associations
   PaymentSchedule.belongsTo(CreditAgreement, {
     foreignKey: "credit_agree_id",
     as: "agreement",
@@ -190,7 +182,6 @@ export const setupConnections = () => {
     targetKey: "id",
   });
 
-  // Debts associations
   Debts.belongsTo(User, {
     foreignKey: "user_id",
     as: "user",
@@ -203,28 +194,24 @@ export const setupConnections = () => {
     targetKey: "id",
   });
 
-  // Bank associations
   Bank.hasMany(CreditAgreement, {
     foreignKey: "bank_id",
     as: "creditAgreements",
     sourceKey: "id",
   });
 
-  // MoneyFlowType associations
   MoneyFlowType.hasMany(Transactions, {
     foreignKey: "money_flow_type_id",
     as: "transactions",
     sourceKey: "id",
   });
 
-  // PaymentStatuses associations
   PaymentStatuses.hasMany(Transactions, {
     foreignKey: "status_id",
     as: "transactions",
     sourceKey: "id",
   });
 
-  // PurchaseCat associations (system categories)
   PurchaseCat.hasMany(PurchaseCat, {
     foreignKey: "parent_id",
     as: "children",
@@ -243,7 +230,6 @@ export const setupConnections = () => {
     sourceKey: "id",
   });
 
-  // UsersPCategory associations (user custom categories)
   UsersPCategory.belongsTo(User, {
     foreignKey: "user_id",
     as: "user",
@@ -268,7 +254,6 @@ export const setupConnections = () => {
     sourceKey: "id",
   });
 
-  // Token associations
   Token.belongsTo(User, {
     foreignKey: "user_id",
     as: "user",

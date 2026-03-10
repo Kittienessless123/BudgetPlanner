@@ -14,8 +14,7 @@ import {
   Table,
 } from "@sequelize/core/decorators-legacy";
 
-@Table({ tableName: 'wallets', timestamps: true })
-
+@Table({ tableName: "wallets", timestamps: true })
 export class Wallet extends Model<
   InferAttributes<Wallet>,
   InferCreationAttributes<Wallet>
@@ -31,7 +30,7 @@ export class Wallet extends Model<
 
   @Attribute(DataTypes.INTEGER)
   @NotNull
-  declare user_id: number; // было string, исправил на number
+  declare user_id: number;
 
   @Attribute(DataTypes.STRING)
   @NotNull

@@ -1,4 +1,3 @@
-// di/container.ts - простой DI контейнер
 export class Container {
   private static instances = new Map<string, any>();
   private static factories = new Map<string, () => any>();

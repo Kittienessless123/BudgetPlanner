@@ -1,4 +1,3 @@
-// user/user.constants.ts
 import { type IModuleMessages } from '../../../shared/types/messages.types.ts';
 
 export type UserErrorKey =

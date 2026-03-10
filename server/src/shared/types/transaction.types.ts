@@ -1,5 +1,3 @@
-// types/transaction.types.ts
-
 import { type CurrencyCode } from './currency.types.ts';
 import { type MoneyFlowCode } from './money-flow.types.ts';
 import {type  PaymentStatusCode } from './payment-status.types.ts';

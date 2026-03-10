@@ -1,6 +1,4 @@
-// types/debt.types.ts
-
-export type DebtDirection = 'lent' | 'borrowed'; // я дал в долг / я взял в долг
+export type DebtDirection = 'lent' | 'borrowed';
 
 export type DebtStatus = 
   | 'ACTIVE'

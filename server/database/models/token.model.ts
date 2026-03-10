@@ -1,4 +1,3 @@
-// models/token.model.ts
 import {
   DataTypes,
   Model,
