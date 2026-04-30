@@ -1,4 +1,3 @@
-require("dotenv").config();
 
 export class AuthValidator {
   async validateEmail(email : string) {

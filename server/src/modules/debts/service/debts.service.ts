@@ -1,7 +1,6 @@
 import type { DebtsRepository } from "@repositories/debt.repository.ts";
 import type { TransactionRepository } from "@repositories/transactions.repository.ts";
 import type { NextFunction, Response, Request } from "express";
-require("dotenv").config();
 
 export class DebtsService {
   constructor(

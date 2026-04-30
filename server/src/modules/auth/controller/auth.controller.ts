@@ -1,12 +1,11 @@
 import type { NextFunction, Response, Request } from "express";
-import "dotenv/config";
 import { AuthService } from "../service/auth.service.ts";
-import { Container } from "../../../../database/di/container.ts";
+import { Container } from "@di/container.ts";
 import { RegisterDto } from "../dto/register.dto.ts";
 import { LoginDto, UpdateNameDto, ResetPasswordDto } from "../dto/login.dto.ts";
 
 export class AuthController {
-  private authService = Container.get<AuthService>("AuthService");
+  constructor(private authService: AuthService) {}
   private readonly COOKIE_NAME = "token";
 
   async registration(req: Request, res: Response, next: NextFunction) {

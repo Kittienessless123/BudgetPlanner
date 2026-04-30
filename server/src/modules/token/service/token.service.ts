@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import dotenv from "dotenv";
 import {
   TokenRepository,
   type CreateTokenDTO,
@@ -7,7 +6,6 @@ import {
 import { Token } from "@models/token.model.ts";
 import { RepositoryError } from "@repositories/repository.types.ts";
 
-dotenv.config();
 
 export interface TokenPayload {
   id: number;

@@ -1,18 +1,15 @@
-FROM node:18-alpine
+FROM node:20-alpine
 
 WORKDIR /app
 
-# Установка зависимостей для разработки
+# Копируем package.json и package-lock.json
 COPY package*.json ./
-COPY tsconfig*.json ./
+RUN npm ci
 
-RUN npm install
-
-# Копирование исходного кода
+# Копируем исходный код
 COPY . .
 
-# Открытие порта
-EXPOSE 3000
+EXPOSE 5000
 
-# Запуск в режиме разработки
+# Запускаем приложение (миграции выполняются в index.ts)
 CMD ["npm", "run", "dev"]

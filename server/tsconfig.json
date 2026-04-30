@@ -4,12 +4,12 @@
     // File Layout
     // "rootDir": "./src",
     // "outDir": "./dist",
-
+    "types": ["node", "jest"],
+    "moduleResolution": "nodenext",
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
     "module": "nodenext",
     "target": "esnext",
-    "types": [],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],
@@ -23,7 +23,7 @@
     // Stricter Typechecking Options
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": false,
-
+    "allowImportingTsExtensions": true,
     // Style Options
     // "noImplicitReturns": true,
     // "noImplicitOverride": true,
@@ -41,7 +41,6 @@
     "moduleDetection": "force",
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowImportingTsExtensions": true,
     "noEmit": true,
     "experimentalDecorators": true, // включает поддержку декораторов
     "emitDecoratorMetadata": true,

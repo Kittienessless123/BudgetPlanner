@@ -2,7 +2,6 @@ import type { NextFunction, Response, Request } from "express";
 import { UserService } from "../service/user.service.ts";
 import { Container } from "@di/container.ts";
 import { UpdateUserDto,DeleteAccountDto } from "../dto/user.dto.ts";
-import "dotenv/config";
 
 export class UserController {
   private userService = Container.get<UserService>("UserService");

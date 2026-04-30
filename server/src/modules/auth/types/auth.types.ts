@@ -1,4 +1,4 @@
-import type { UserStats } from "../../../../database/repositories/users.repository.ts";
+import type { UserStats } from "@repositories/users.repository.ts";
 
 export interface CreateUserInput {
   email: string;

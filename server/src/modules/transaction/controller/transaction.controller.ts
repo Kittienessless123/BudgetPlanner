@@ -1,6 +1,5 @@
 import type { NextFunction, Response, Request } from "express";
 import { WalletService } from "../service/wallet.service.ts";
-require("dotenv").config();
 
 export class WalletController {
   async getUserDataByPk(req: Request, res: Response, next: NextFunction) {

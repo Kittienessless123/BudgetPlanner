@@ -1,7 +1,4 @@
-import dotenv from "dotenv";
-import type { Options } from "sequelize";
-
-dotenv.config();
+import type { Options } from "@sequelize/core";
 
 export interface IDatabaseConfig {
   username: string;
@@ -97,9 +94,5 @@ export const getSequelizeOptions = (env?: string): Options => {
       acquire: 30000,
       idle: 10000,
     },
-    logging:
-      process.env.NODE_ENV === "development"
-        ? (msg: string) => console.log(`📦 ${msg}`)
-        : false,
   };
 };
