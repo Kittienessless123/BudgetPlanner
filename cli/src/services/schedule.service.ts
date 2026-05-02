@@ -1,4 +1,4 @@
-class CreditService {
+class ScheduleService {
     add = async () =>{};
   get = async () =>{};
   put = async () =>{};
