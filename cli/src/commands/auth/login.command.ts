@@ -1,29 +1,34 @@
+// commands/auth/login.command.ts
 import { Command } from "commander";
-import { AuthService } from "../../services/auth.service";
-
-interface LoginOptions {
-  email?: string;
-  password?: string;
-}
+import { i18n } from "../../core-modules/locales/index.ts";
+import { storageService } from "../../core-modules/storage/index.ts";
 
 export class LoginCommand {
-  authService: AuthService = new AuthService();
-
   register(program: Command): void {
     program
-      .command("login")
-      .description("Login to budget planner")
-      .option("-e, --email <email>", "User email")
-      .option("-p, --password <password>", "User password")
-      .action((options: LoginOptions) => {
-        this.execute(options);
+      .command(i18n.commandName("auth.login"))
+      .description(i18n.commandDescription("auth.login"))
+      .option(
+        "-e, --email <email>",
+        i18n.optionDescription("auth.login", "email"),
+      )
+      .option(
+        "-p, --password <password>",
+        i18n.optionDescription("auth.login", "password"),
+      )
+      .option(
+        "-i, --interactive",
+        i18n.optionDescription("auth.login", "interactive"),
+      )
+      .action(async (options) => {
+        await this.execute(options);
       });
   }
 
-  private async execute(options: LoginOptions): Promise<void> {
+  private async execute(options: any): Promise<void> {
+    // ... логика входа
 
-    const result = this.authService.login(options.email, options.password);
-    console.log("Register result..." + result);
+    console.log(i18n.t("messages.welcome", { name: name }));
+    // Вывод: "Добро пожаловать в Budget Planner, John!" или "Welcome to Budget Planner, John!"
   }
 }
-

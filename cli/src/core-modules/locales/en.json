@@ -1,0 +1,51 @@
+{
+  "commands": {
+    "auth": {
+      "name": "auth",
+      "description": "Authentication commands",
+      "subcommands": {
+        "login": {
+          "name": "login",
+          "description": "Login to budget planner",
+          "options": {
+            "email": "User email",
+            "password": "User password",
+            "interactive": "Interactive login mode"
+          }
+        },
+        "register": {
+          "name": "register",
+          "description": "Register new user"
+        },
+        "logout": {
+          "name": "logout",
+          "description": "Logout from budget planner"
+        }
+      }
+    },
+    "wallet": {
+      "name": "wallet",
+      "description": "Manage wallets",
+      "subcommands": {
+        "balance": {
+          "name": "balance",
+          "description": "Show wallet balance",
+          "options": {
+            "currency": "Currency code (USD, EUR, RUB)",
+            "detailed": "Show detailed breakdown"
+          }
+        }
+      }
+    }
+  },
+  "errors": {
+    "unauthorized": "You must be logged in to use this command",
+    "invalidInput": "Invalid input: {{field}}",
+    "notFound": "{{resource}} not found"
+  },
+  "messages": {
+    "success": "✅ Success!",
+    "welcome": "Welcome to Budget Planner, {{name}}!",
+    "goodbye": "Goodbye! See you next time"
+  }
+}

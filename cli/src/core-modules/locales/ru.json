@@ -1,0 +1,51 @@
+{
+  "commands": {
+    "auth": {
+      "name": "auth",
+      "description": "Команды авторизации",
+      "subcommands": {
+        "login": {
+          "name": "login",
+          "description": "Вход в Budget Planner",
+          "options": {
+            "email": "Email пользователя",
+            "password": "Пароль пользователя",
+            "interactive": "Интерактивный режим входа"
+          }
+        },
+        "register": {
+          "name": "register",
+          "description": "Регистрация нового пользователя"
+        },
+        "logout": {
+          "name": "logout",
+          "description": "Выход из Budget Planner"
+        }
+      }
+    },
+    "wallet": {
+      "name": "кошелек",
+      "description": "Управление кошельками",
+      "subcommands": {
+        "balance": {
+          "name": "баланс",
+          "description": "Показать баланс кошелька",
+          "options": {
+            "currency": "Код валюты (USD, EUR, RUB)",
+            "detailed": "Показать детальную разбивку"
+          }
+        }
+      }
+    }
+  },
+  "errors": {
+    "unauthorized": "Вы должны войти в систему для использования этой команды",
+    "invalidInput": "Неверный ввод: {{field}}",
+    "notFound": "{{resource}} не найден"
+  },
+  "messages": {
+    "success": "✅ Успешно!",
+    "welcome": "Добро пожаловать в Budget Planner, {{name}}!",
+    "goodbye": "До свидания! Ждём вас снова"
+  }
+}
