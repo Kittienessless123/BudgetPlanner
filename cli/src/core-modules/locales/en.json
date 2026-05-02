@@ -47,5 +47,126 @@
     "success": "✅ Success!",
     "welcome": "Welcome to Budget Planner, {{name}}!",
     "goodbye": "Goodbye! See you next time"
+  },
+  "commands": {
+    "account": {
+      "name": "account",
+      "description": "Manage user account",
+      "get": {
+        "name": "get",
+        "description": "Get user information",
+        "options": {
+          "email": "User email",
+          "name": "User name"
+        }
+      },
+      "update": {
+        "name": "update",
+        "description": "Update user information",
+        "options": {
+          "email": "New email",
+          "name": "New name",
+          "currency": "Default currency"
+        }
+      },
+      "delete": {
+        "name": "delete",
+        "description": "Delete user account",
+        "options": {
+          "force": "Skip confirmation"
+        }
+      },
+      "changePassword": {
+        "name": "change-password",
+        "description": "Change user password",
+        "options": {
+          "currentPassword": "Current password",
+          "newPassword": "New password"
+        }
+      }
+    }
+  },
+  "headers": {
+    "userInfo": "User Information",
+    "updatedInfo": "Updated Information"
+  },
+  "fields": {
+    "name": "Name",
+    "email": "Email",
+    "defaultCurrency": "Default Currency"
+  },
+  "warnings": {
+    "noDataToUpdate": "No data provided for update",
+    "deleteConfirmation": "⚠️ This action is irreversible!"
+  },
+  "questions": {
+    "confirmDelete": "Are you sure you want to delete your account?",
+    "typeDelete": "Type \"DELETE\" to confirm",
+    "currentPassword": "Current password:",
+    "newPassword": "New password:",
+    "confirmPassword": "Confirm new password:"
+  },
+  "commands": {
+    "auth": {
+      "name": "auth",
+      "description": "Команды авторизации",
+      "login": {
+        "name": "login",
+        "description": "Вход в Budget Planner",
+        "options": {
+          "email": "Email пользователя",
+          "password": "Пароль пользователя",
+          "interactive": "Интерактивный режим входа"
+        }
+      },
+      "register": {
+        "name": "register",
+        "description": "Регистрация нового пользователя",
+        "options": {
+          "email": "Email пользователя",
+          "password": "Пароль пользователя",
+          "name": "Имя пользователя",
+          "interactive": "Интерактивный режим регистрации"
+        }
+      },
+      "logout": {
+        "name": "logout",
+        "description": "Выход из Budget Planner"
+      }
+    }
+  },
+  "warnings": {
+    "alreadyLoggedIn": "Вы уже авторизованы как {{name}}",
+    "notLoggedIn": "Вы не авторизованы",
+    "deleteConfirmation": "⚠️ Это действие необратимо!"
+  },
+  "messages": {
+    "loggingIn": "🔐 Вход в систему...",
+    "loggingOut": "👋 Выход из системы, {{name}}...",
+    "loginSuccess": "✅ Добро пожаловать, {{name}}!",
+    "logoutSuccess": "✅ Вы успешно вышли из системы",
+    "registering": "📝 Регистрация нового пользователя...",
+    "registerSuccess": "✅ Регистрация завершена! Добро пожаловать, {{name}}!",
+    "welcome": "Добро пожаловать в Budget Planner!",
+    "tokenSaved": "Токен сохранён",
+    "storagePath": "Путь к хранилищу",
+    "goodbye": "До свидания! Ждём вас снова",
+    "pleaseLoginAgain": "Пожалуйста, войдите снова"
+  },
+  "errors": {
+    "missingCredentials": "Не указаны email или пароль",
+    "missingRegistrationData": "Не указаны имя, email или пароль",
+    "loginFailed": "Ошибка входа:",
+    "registerFailed": "Ошибка регистрации:",
+    "logoutFailed": "Ошибка выхода:",
+    "passwordsDoNotMatch": "Пароли не совпадают",
+    "invalidConfirmation": "Неверное подтверждение. Введите 'DELETE'"
+  },
+  "questions": {
+    "email": "Email:",
+    "password": "Пароль:",
+    "name": "Имя:",
+    "confirmPassword": "Подтвердите пароль:"
   }
+}
 }
