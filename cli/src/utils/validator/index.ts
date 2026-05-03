@@ -81,7 +81,25 @@ export class Validator {
       return { success: false, result: NaN };
     }
   }
+  // Добавь в существующий Validator класс
+  validateBankName(value: string): { isValid: boolean; errors: string[] } {
+    const errors: string[] = [];
 
-  
+    if (!value || value.trim().length === 0) {
+      errors.push("Bank name cannot be empty");
+    } else if (value.length < 2) {
+      errors.push("Bank name must be at least 2 characters");
+    } else if (value.length > 15) {
+      errors.push("Bank name must be less than 15 characters");
+    } else if (!/^[A-Za-z0-9\s\-&]+$/.test(value)) {
+      errors.push(
+        "Bank name can only contain letters, numbers, spaces, hyphens and ampersands",
+      );
+    }
 
+    return {
+      isValid: errors.length === 0,
+      errors,
+    };
+  }
 }

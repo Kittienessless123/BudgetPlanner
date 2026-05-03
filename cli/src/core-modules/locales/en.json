@@ -169,4 +169,97 @@
     "confirmPassword": "Подтвердите пароль:"
   }
 }
+// Добавь в locales/ru.json и en.json
+
+// en.json
+{
+  "commands": {
+    "bank": {
+      "parent": "Manage banks",
+      "add": {
+        "name": "add",
+        "description": "Add a new bank",
+        "options": {
+          "name": "Bank name (2-15 characters)",
+          "code": "Bank code (BIC/SWIFT)",
+          "country": "Country code (ISO 3166-1 alpha-2)",
+          "interactive": "Interactive mode"
+        }
+      },
+      "list": {
+        "name": "list",
+        "description": "List all banks",
+        "options": {
+          "user": "Show user banks only"
+        }
+      },
+      "get": {
+        "name": "get",
+        "description": "Get bank by ID"
+      },
+      "update": {
+        "name": "update",
+        "description": "Update bank information",
+        "options": {
+          "name": "New bank name",
+          "code": "New bank code",
+          "country": "New country code",
+          "interactive": "Interactive mode"
+        }
+      },
+      "delete": {
+        "name": "delete",
+        "description": "Delete bank",
+        "options": {
+          "force": "Skip confirmation"
+        }
+      }
+    }
+  },
+  "headers": {
+    "bankInfo": "Bank Information",
+    "bankDetails": "Bank Details",
+    "systemBanks": "System Banks",
+    "userBanks": "User Banks",
+    "updatedBankInfo": "Updated Bank Information"
+  },
+  "fields": {
+    "bankId": "ID",
+    "bankName": "Name",
+    "bankCode": "Code",
+    "country": "Country"
+  },
+  "messages": {
+    "addingBank": "🏦 Adding new bank...",
+    "bankAdded": "Bank added successfully!",
+    "updatingBank": "✏️ Updating bank...",
+    "bankUpdated": "Bank updated successfully!",
+    "deletingBank": "🗑️ Deleting bank...",
+    "bankDeleted": "Bank \"{{name}}\" deleted successfully!",
+    "fetchingBanks": "📋 Fetching banks...",
+    "fetchingUserBanks": "📋 Fetching user banks...",
+    "fetchingBank": "🔍 Fetching bank details...",
+    "noBanksFound": "No banks found",
+    "leaveEmptyToSkip": "Leave empty to skip"
+  },
+  "errors": {
+    "bankNameRequired": "Bank name is required",
+    "bankAddFailed": "Failed to add bank:",
+    "bankUpdateFailed": "Failed to update bank:",
+    "bankDeleteFailed": "Failed to delete bank:",
+    "bankListFailed": "Failed to fetch banks:",
+    "bankFetchFailed": "Failed to fetch bank details:",
+    "bankNotFound": "Bank not found"
+  },
+  "questions": {
+    "bankName": "Bank name:",
+    "bankCode": "Bank code (optional):",
+    "country": "Country (optional):"
+  },
+  "warnings": {
+    "deleteBankConfirmation": "⚠️ Are you sure you want to delete bank \"{{name}}\"? This action cannot be undone!"
+  },
+  "arguments": {
+    "bankId": "Bank ID"
+  }
 }

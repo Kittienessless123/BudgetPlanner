@@ -19,6 +19,30 @@ export interface RegisterDto {
   password: string;
   passwordConfirm: string; 
 }
+// dto/bank.dto.ts
+export interface BankDto {
+  id?: string;
+  name: string;
+  code: string | null;
+  country: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface UserBankDto {
+  id?: string;
+  name: string;
+  code: string | null;
+  country: string | null;
+  userId: string | null;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+
+export interface BankListResponse {
+  banks: BankDto[];
+  total: number;
+}
 
 export interface AuthResponseDto {
   user: UserDto;

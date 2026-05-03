@@ -117,6 +117,13 @@ export class BankEntity {
   code!: string | null;
   country!: string | null;
 }
+export class UserBankEntity {
+  id!: string;
+  name!: string;
+  code!: string | null;
+  country!: string | null;
+  userId!: string | null;
+}
 
 export class SettingsEntity {
   id!: string;
